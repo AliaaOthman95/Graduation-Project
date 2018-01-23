@@ -1,7 +1,9 @@
-package eg.alexu.eng.mobdev.gradprojdemo;
+package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import eg.alexu.eng.mobdev.gradprojdemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
