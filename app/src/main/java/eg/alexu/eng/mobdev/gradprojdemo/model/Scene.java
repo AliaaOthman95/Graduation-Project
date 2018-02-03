@@ -9,4 +9,5 @@ public class Scene {
 
     private List<Entity> entities ;
     private String narration ;
+    private Integer id ;
 }
