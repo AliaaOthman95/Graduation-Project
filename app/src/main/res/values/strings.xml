@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GradProjDemo</string>
+    <string name="title_activity_test">test</string>
+    <string name="splash_screen_text">Sample Splash Screen</string>
 </resources>
