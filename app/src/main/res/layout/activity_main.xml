@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.MainActivity">
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
