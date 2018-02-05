@@ -15,9 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.Splash" android:theme="@style/SplashTheme">
-
-        </activity>
+        <activity
+            android:name=".view.Splash"
+            android:theme="@style/SplashTheme"></activity>
+        <activity
+            android:name=".view.Book_Shelf_Activity"
+            android:label="@string/title_activity_book__shelf_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
