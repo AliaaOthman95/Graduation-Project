@@ -17,13 +17,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-
         gotoOtherActivity(Splash.class);
-
         finish();
     }
-
 
     private void gotoOtherActivity(Class someClass) {
 
