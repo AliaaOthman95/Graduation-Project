@@ -1,5 +1,6 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneEngine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.BookShelfAdaptor;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.StoryFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
@@ -39,8 +41,10 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
+                startActivity(myintent);
+               // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
+                        //.setAction("Action", null).show();
             }
         });
     }

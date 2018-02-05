@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator">
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/cardview_light_background">
+
+
+        <EditText
+            android:id="@+id/text"
+            android:layout_width="50mm"
+            android:layout_height="50mm"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_rounded_border"
+            android:inputType="textCapSentences|textAutoCorrect" />
+
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/text"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/text"
+            android:background="@drawable/button_rounded_border"
+            app:srcCompat="@drawable/send_image" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
