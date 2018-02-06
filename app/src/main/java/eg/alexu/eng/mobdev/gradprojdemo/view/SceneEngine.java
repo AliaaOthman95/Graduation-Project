@@ -1,4 +1,4 @@
-package eg.alexu.eng.mobdev.gradprojdemo.controller;
+package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator;
 
 public class SceneEngine extends AppCompatActivity {
 

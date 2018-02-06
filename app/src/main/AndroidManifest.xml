@@ -23,8 +23,8 @@
             android:label="@string/title_activity_book__shelf_"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".controller.SceneCreator"
-            android:parentActivityName=".controller.SceneEngine"/>
-        <activity android:name=".controller.SceneEngine"></activity>
+            android:parentActivityName=".view.SceneEngine"/>
+        <activity android:name=".view.SceneEngine"></activity>
     </application>
 
 </manifest>

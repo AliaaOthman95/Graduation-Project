@@ -3,21 +3,15 @@ package eg.alexu.eng.mobdev.gradprojdemo.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
-import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneEngine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.BookShelfAdaptor;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.StoryFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
