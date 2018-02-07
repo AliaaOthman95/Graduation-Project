@@ -37,13 +37,13 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
     @Override
     public void onBindViewHolder(MySceneHolder holder, int position) {
         Scene scene = scenesList.get(position);
-        holder.sceneName.setText(scenesList.get(position).getname());
 
+        holder.sceneName.setText(scenesList.get(position).getname());
         Context context = holder.sceneCover.getContext();
         String coverName = scenesList.get(position).getCover();
-        int coverImageId = context.getResources().getIdentifier(coverName,
+        int coverId = context.getResources().getIdentifier(coverName,
                 "drawable", context.getPackageName());
-        holder.sceneCover.setImageResource(coverImageId);
+        holder.sceneCover.setImageResource(coverId);
 
     }
 

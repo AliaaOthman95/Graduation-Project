@@ -15,7 +15,6 @@ public class Scene {
     public Scene (String name ,String cover){
         this.name=name;
         this.cover=cover;
-
     }
 
     public List<Entity> getlist() {
