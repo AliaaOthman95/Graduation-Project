@@ -54,7 +54,6 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
         bookShelfRV = (RecyclerView)findViewById(R.id.book_shelf_rv);
         bookShelfRV.setHasFixedSize(true);
-
         LinearLayoutManager llm = new LinearLayoutManager(this);
         bookShelfRV.setLayoutManager(llm);
 
