@@ -43,7 +43,8 @@
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/text"
             android:background="@drawable/button_rounded_border"
-            app:srcCompat="@drawable/send_image" />
+            app:srcCompat="@drawable/ic_send_black_24dp"
+            tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>
 
