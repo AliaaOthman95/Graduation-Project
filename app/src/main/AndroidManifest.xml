@@ -24,6 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".controller.SceneCreator"
+            android:label="@string/title_Scene_Creator"
             android:parentActivityName=".view.SceneEngine" />
         <activity
             android:name=".view.SceneEngine"

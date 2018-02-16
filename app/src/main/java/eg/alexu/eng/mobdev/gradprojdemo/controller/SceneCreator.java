@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +37,19 @@ public class SceneCreator extends AppCompatActivity {
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
         getEntity();
-        saveScene();
+
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_scene_creator,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-    private void saveScene() {
 
+        return true;
     }
 
     private void getEntity() {
