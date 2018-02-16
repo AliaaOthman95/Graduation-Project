@@ -6,6 +6,44 @@
     android:layout_height="match_parent"
     tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator">
 
+    <RelativeLayout
+        android:id="@+id/board_scene"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_alignParentStart="true"
+        android:background="@color/cardview_light_background">
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="154dp"
+            android:layout_marginTop="106dp"
+            app:srcCompat="@drawable/sample_cover_0" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="55dp"
+            app:srcCompat="@drawable/sample_cover_2" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView2"
+            android:layout_toEndOf="@+id/imageView"
+            app:srcCompat="@drawable/sample_cover_1" />
+
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -47,6 +85,7 @@
             tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>
+
 
 
 
