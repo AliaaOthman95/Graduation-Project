@@ -27,17 +27,7 @@ public class SceneFactory {
         sceneList.add(scene2);
         sceneList.add(scene3);
         sceneList.add(scene4);
-        sceneList.add(scene5);
-        sceneList.add(scene1);
-        sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-        sceneList.add(scene5);
-        sceneList.add(scene1);
-        sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-        sceneList.add(scene5);
+
         return sceneList;
     }
 

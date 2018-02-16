@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-        <item >
-            <shape android:shape="oval">
-                <solid/>
-                <corners android:radius="50dp" />
-                <stroke
-                    android:color="#bf005f"
-                    android:width="2dp"
-                    android:dashGap="4dp"
-                    android:dashWidth="10dp"
-                    />
-            </shape>
-        </item>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="oval">
+        <solid android:color="@color/colorAccent"/>
+        <corners android:radius="50dp" />
+        <stroke
+            android:color="#bf005f"
+            android:width="2dp"
+            />
+</shape>

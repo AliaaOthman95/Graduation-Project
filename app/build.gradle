@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:27.0.0'
     compile 'com.android.support:appcompat-v7:27.0.0'
     compile 'com.android.support:design:27.0.0'
+    compile 'com.github.kapil93:circular-layout-manager:1.0.0'
 }
