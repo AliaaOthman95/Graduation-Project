@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAEBD7"
-    android:padding="5dp"
-    tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.EntityCreator">
+    android:background="@drawable/background"
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator">
 
 
     <EditText
         android:id="@+id/text"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="100dp"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/textView2"
-        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
         android:background="@drawable/button_rounded_border"
         android:backgroundTint="#F0F8FF"
         android:inputType="textCapSentences|textAutoCorrect" />
@@ -26,35 +25,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="46dp"
         android:text="Imagine Your Animal"
-        android:textColor="@color/colorAccent"
+        android:textColor="#FF00DA"
         android:textSize="20dp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/ok"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/text"
-        android:layout_marginTop="29dp"
-        android:background="@drawable/button_rounded_border"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="#ffff"
-        android:text="OK"
-        android:paddingBottom="10dp"/>
+        android:layout_marginEnd="27dp"
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="20dp"
+        android:layout_toStartOf="@+id/speech"
+        android:background="@drawable/ic_add_circle_black_24dp"
+        android:backgroundTint="#FF00DA"
+        android:textColor="#ffff" />
 
-    <Button
+    <ImageButton
         android:id="@+id/speech"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ok"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_rounded_border"
-        android:backgroundTint="@color/colorAccent"
-        android:textColor="#ffff"
-        android:text="Button" />
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_alignTop="@+id/ok"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/ic_mic_black_24dp"
+        android:textColor="#ffff" />
 
 </RelativeLayout>

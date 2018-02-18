@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ public class SceneCreator extends AppCompatActivity {
     private int xDelta;
     private  int yDelta;
     private  ImageButton sendWord;
-    private String descreption;
+    private EditText entity_desception;
+    private  AlertDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +49,8 @@ public class SceneCreator extends AppCompatActivity {
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
 
-        getEntityDescreption();
-        /*Bundle extras = getIntent().getExtras();
-        if(extras!=null) {
-            String descreption = extras.getString("Desciption");
-            showEntity(descreption);
-            Log.d("shereen", descreption);
-        }*/
+
+        createNewEntity();
     }
 
 
@@ -69,7 +67,8 @@ public class SceneCreator extends AppCompatActivity {
         return true;
     }
 
-    private void getEntityDescreption() {
+    private void createNewEntity() {
+
 
         sendWord = (ImageButton) findViewById(R.id.send);
        // entityName=(EditText) findViewById(R.id.text);
@@ -78,27 +77,33 @@ public class SceneCreator extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(SceneCreator.this, EntityCreator.class));
-                dialogPopUp();
+
+               dialogPopUp();
             }
         });
     }
 
     private void dialogPopUp() {
+
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneCreator.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
+
         // fileds of dialog
-        final EditText entity_desception=(EditText) mview.findViewById(R.id.text);
+        entity_desception=(EditText) mview.findViewById(R.id.text);
         Button ok_button =(Button) mview.findViewById(R.id.ok);
-        Button speech =(Button) mview.findViewById(R.id.speech);
+
+
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // get entity from server
                 showEntity(entity_desception.getText().toString());
+                dialog.dismiss();
             }
 
         });
 
+        ImageButton speech =(ImageButton) mview.findViewById(R.id.speech);
         speech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,20 +119,23 @@ public class SceneCreator extends AppCompatActivity {
         });
 
         mbuilder.setView(mview);
-        AlertDialog dialog = mbuilder.create();
+        dialog = mbuilder.create();
         dialog.show();
+        return;
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode ==200){
-            if(requestCode == RESULT_OK && data != null){
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                Log.d("sssssssssssppppp",result.get(0));
-                descreption= result.get(0);
 
+        switch (requestCode) {
+            case 200: {
+                if (resultCode == RESULT_OK && null != data) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    entity_desception.setText(result.get(0));
+                }
+                break;
             }
         }
     }

@@ -29,9 +29,6 @@
         <activity
             android:name=".view.SceneEngine"
             android:label="@string/title_Scene_Engine" />
-        <activity android:name=".controller.EntityCreator"
-
-            android:theme="@style/AppTheme.CustomTheme"></activity>
     </application>
 
 </manifest>
