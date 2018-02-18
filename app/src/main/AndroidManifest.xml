@@ -21,14 +21,17 @@
         <activity
             android:name=".view.Book_Shelf_Activity"
             android:label="@string/title_activity_book__shelf_"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".controller.SceneCreator"
             android:label="@string/title_Scene_Creator"
             android:parentActivityName=".view.SceneEngine" />
         <activity
             android:name=".view.SceneEngine"
-            android:label="@string/title_Scene_Engine"></activity>
+            android:label="@string/title_Scene_Engine" />
+        <activity android:name=".controller.EntityCreator"
+
+            android:theme="@style/AppTheme.CustomTheme"></activity>
     </application>
 
 </manifest>
