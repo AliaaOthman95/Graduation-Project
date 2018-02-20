@@ -49,7 +49,6 @@ public class SceneCreator extends AppCompatActivity {
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
 
-
         createNewEntity();
     }
 
@@ -62,6 +61,13 @@ public class SceneCreator extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.save_story:
+                // save story
+                return true;
+
+        }
 
 
         return true;
@@ -97,8 +103,10 @@ public class SceneCreator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // get entity from server
-                showEntity(entity_desception.getText().toString());
-                dialog.dismiss();
+                if(!entity_desception.getText().toString().isEmpty()){
+                    showEntity(entity_desception.getText().toString().toLowerCase());
+                    dialog.dismiss();
+                }
             }
 
         });
@@ -115,6 +123,14 @@ public class SceneCreator extends AppCompatActivity {
                 }catch (ActivityNotFoundException a){
                     Toast.makeText(getApplicationContext(),"Speech Intent problem",Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        Button cancel = (Button) mview.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
 
