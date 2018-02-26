@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffe6ff"
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator">
+
+
+    <EditText
+        android:id="@+id/text"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/button_rounded_border"
+        android:backgroundTint="#F0F8FF"
+        android:inputType="textCapSentences|textAutoCorrect" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/text"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginTop="44dp"
+        android:text="Descripe Your Animal"
+        android:textColor="#FF00DA"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/ok"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_alignTop="@+id/cancel"
+        android:layout_marginStart="19dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/ic_add_circle_black_24dp"
+        android:textColor="#ffff" />
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/textView2"
+        android:layout_below="@+id/text"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/ic_cancel_black_24dp"
+        android:textColor="#ffff" />
+
+    <ImageButton
+        android:id="@+id/speech"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignTop="@+id/text"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/text"
+        android:background="@drawable/ic_mic_black_24dp"
+        android:textColor="#ffff" />
+
+</RelativeLayout>

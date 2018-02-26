@@ -3,4 +3,11 @@
     <string name="title_activity_test">test</string>
     <string name="splash_screen_text">Sample Splash Screen</string>
     <string name="title_activity_book__shelf_">Your Book Shelf </string>
+    <!-- string of scene engine -->
+    <string name="title_Scene_Engine">My Scens </string>
+    <string name="save_story_text">save</string>
+    <string name="search_scene_text">search</string>
+    <string name="delete_scene_text">delete</string>
+
+    <string name="title_Scene_Creator"> Scene </string>
 </resources>
