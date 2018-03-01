@@ -38,7 +38,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
     public void onBindViewHolder(MySceneHolder holder, int position) {
         Scene scene = scenesList.get(position);
 
-        holder.sceneName.setText(scenesList.get(position).getname());
+       // holder.sceneName.setText(scenesList.get(position).getname());
         Context context = holder.sceneCover.getContext();
         String coverName = scenesList.get(position).getCover();
         int coverId = context.getResources().getIdentifier(coverName,
@@ -59,7 +59,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         public MySceneHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
-            sceneName = (TextView) itemView.findViewById(R.id.sceneName);
+            //sceneName = (TextView) itemView.findViewById(R.id.sceneName);
             sceneCover =(ImageView) itemView.findViewById(R.id.sceneCover);
         }
     }

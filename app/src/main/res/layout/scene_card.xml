@@ -27,17 +27,6 @@
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerCrop"/>
 
-            <TextView
-                android:id="@+id/sceneName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:textColor="@color/colorAccent"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>

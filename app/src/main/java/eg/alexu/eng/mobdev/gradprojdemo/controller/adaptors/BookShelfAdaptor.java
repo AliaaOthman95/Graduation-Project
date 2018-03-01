@@ -37,7 +37,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
         @Override
         public void onBindViewHolder(StroyCardViewHolder holder, int index) {
 
-            holder.storyName.setText(storyList.get(index).getStroyName());
+            holder.storyName.setText(storyList.get(index).getStoryName());
 
             holder.storyDate.setText(storyList.get(index).getCreationDate()+"");
 
