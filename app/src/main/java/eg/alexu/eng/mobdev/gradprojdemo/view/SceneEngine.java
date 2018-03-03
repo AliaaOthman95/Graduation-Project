@@ -89,6 +89,7 @@ public class SceneEngine extends AppCompatActivity {
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
         // create scences and set them to adapter
         adapter = new SceneAdapter(sceneFactory.createScenes());
         recyclerView.setAdapter(adapter);
