@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,8 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                Toast.makeText(context,"click"+ scenesList.get(position),Toast.LENGTH_LONG).show();
-                Log.d("bbbbbbbb","click");
+                Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
+                Log.d("bbbbbbbb",scenesList.get(position).getname());
             }
         });
 
