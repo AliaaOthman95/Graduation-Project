@@ -6,9 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 public class Book_Shelf_Activity extends AppCompatActivity {
 
     private RecyclerView bookShelfRV ;
+    private List<Story> stories ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +32,11 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        stories = StoryFactory.createRandomStories() ;
+
         setupBookShelf();
 
-        setBookShelfContent(StoryFactory.createRandomStories());
+        setBookShelfContent(stories);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +67,42 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
 
     public  void onClickBook(int index) {
-        Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
+
+        Toast.makeText(this,"you clicked on "+stories.get(index).getStroyName(),Toast.LENGTH_LONG)
+                .show();
+
+        Intent myintent = new Intent(this,SceneEngine.class);
         startActivity(myintent);
+    }
+
+    public void onOptionsClick(final int index , View view) {
+
+        //creating a popup menu
+        PopupMenu popup = new PopupMenu(this, view);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.card_pop_menu);
+        //adding click listener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.story_menu_play:
+                        Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.story_menu_del:
+                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.story_menu_other:
+                        Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return false;
+            }
+        });
+        //displaying the popup
+        popup.show();
     }
 }

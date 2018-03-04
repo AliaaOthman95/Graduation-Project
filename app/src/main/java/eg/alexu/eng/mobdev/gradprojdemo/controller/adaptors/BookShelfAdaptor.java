@@ -44,7 +44,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
         }
 
         @Override
-        public void onBindViewHolder(StroyCardViewHolder holder, final int index) {
+        public void onBindViewHolder(final StroyCardViewHolder holder, final int index) {
 
             holder.storyName.setText(storyList.get(index).getStroyName());
 
@@ -54,11 +54,19 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
             int coverImageId = context.getResources().getIdentifier(coverName,
                     "drawable", context.getPackageName());
             holder.storyCover.setImageResource(coverImageId);
+
             holder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int pos) {
-                    Toast.makeText(context,"you clicked on "+ storyList.get(index).getStroyName(),Toast.LENGTH_LONG).show();
                     shelfInstance.onClickBook(index);
+                }
+            });
+
+
+            holder.popMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    shelfInstance.onOptionsClick(index, holder.popMenu);
                 }
             });
 
@@ -83,6 +91,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
             TextView storyName;
             TextView storyDate;
             ImageView storyCover;
+            ImageView popMenu;
             ItemClickListener itemClickListener;
 
 
@@ -92,6 +101,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
                 storyName = (TextView)itemView.findViewById(R.id.story_name);
                 storyDate = (TextView)itemView.findViewById(R.id.story_date);
                 storyCover = (ImageView)itemView.findViewById(R.id.story_cover);
+                popMenu = (ImageView) itemView.findViewById(R.id.story_pop_menu);
                 itemView.setOnClickListener(this);
             }
 

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/story_menu_play"
+        android:title="Play"
+        />
+
+    <item
+        android:id="@+id/story_menu_del"
+        android:title="Delete"
+        />
+
+    <item
+        android:id="@+id/story_menu_other"
+        android:title="Other"
+        />
+
+
+</menu>
