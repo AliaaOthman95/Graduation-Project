@@ -3,6 +3,7 @@ package eg.alexu.eng.mobdev.gradprojdemo.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,17 +36,16 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
-                startActivity(myintent);
-               // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
-                        //.setAction("Action", null).show();
+
+               Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
             }
         });
     }
 
     private void setBookShelfContent(List<Story> stories) {
 
-        BookShelfAdaptor adapter = new BookShelfAdaptor(stories);
+        BookShelfAdaptor adapter = new BookShelfAdaptor(stories,this);
 
         bookShelfRV.setAdapter(adapter);
     }
@@ -60,5 +60,8 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
 
-
+    public  void onClickBook(int index) {
+        Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
+        startActivity(myintent);
+    }
 }

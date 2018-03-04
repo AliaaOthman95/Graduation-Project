@@ -16,6 +16,7 @@ import java.util.List;
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.listener.ItemClickListener;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
+import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
 
 /**
  * Created by Paula B. Bassily on 05/02/2018.
@@ -24,11 +25,12 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
     public class BookShelfAdaptor extends RecyclerView.Adapter<BookShelfAdaptor.StroyCardViewHolder> {
 
         private List<Story> storyList ;
+        private Book_Shelf_Activity shelfInstance ;
 
 
-
-        public BookShelfAdaptor(List<Story> stories){
+        public BookShelfAdaptor(List<Story> stories , Book_Shelf_Activity shelfInstance){
             this.storyList=stories;
+            this.shelfInstance = shelfInstance ;
         }
 
 
@@ -55,7 +57,8 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
             holder.setItemClickListener(new ItemClickListener() {
                 @Override
                 public void onClick(View view, int pos) {
-                    Toast.makeText(context,"click"+ storyList.get(index),Toast.LENGTH_LONG).show();
+                    Toast.makeText(context,"you clicked on "+ storyList.get(index).getStroyName(),Toast.LENGTH_LONG).show();
+                    shelfInstance.onClickBook(index);
                 }
             });
 

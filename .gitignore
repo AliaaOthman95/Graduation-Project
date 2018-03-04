@@ -6,3 +6,9 @@
 .DS_Store
 /build
 /captures
+.idea/gradle.xml
+.idea/misc.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/gradle.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
