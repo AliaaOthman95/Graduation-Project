@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -89,6 +90,8 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     case R.id.story_menu_play:
                         Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStroyName()
                                 ,Toast.LENGTH_LONG).show();
+                        Intent myintent = new Intent(getBaseContext(),DisplayModeActivity.class);
+                        startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
                         Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStroyName()
