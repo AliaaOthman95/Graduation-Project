@@ -29,7 +29,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 public class SceneEngine extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private SceneAdapter adapter;
+
     SceneFactory sceneFactory ;
 
     @SuppressLint("WrongViewCast")
@@ -96,7 +96,4 @@ public class SceneEngine extends AppCompatActivity {
         SceneAdapter adapter = new SceneAdapter(sceneFactory.createScenes());
         recyclerView.setAdapter(adapter);
     }
-
-
-
 }

@@ -10,4 +10,8 @@
     <string name="delete_scene_text">delete</string>
 
     <string name="title_Scene_Creator"> Scene </string>
+
+    <string name="title_activity_display_mode">DisplayModeActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
