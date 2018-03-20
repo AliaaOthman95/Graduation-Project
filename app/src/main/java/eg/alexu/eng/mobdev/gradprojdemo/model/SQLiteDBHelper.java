@@ -57,8 +57,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //Create scene Table Query
     private static final String SQL_CREATE_SCENE =
             "CREATE TABLE SCENE (" + SCENE_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " TEXT, " + "FOREIGN KEY (" + STORY_ID +") " +
-                    "REFERENCES "+ STORY_TABLE + "(" + STORY_ID + ") );";
+                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " TEXT, " +STORY_ID + "  INTEGER, " +"FOREIGN KEY ( " + STORY_ID +" ) " +
+                    "REFERENCES "+ "STORY" + " ( " + STORY_ID + " ) );";
 
     //Create entity Table Query
     private static final String SQL_CREATE_ENTITY =
@@ -66,7 +66,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     + ENTITY_NAME+ " TEXT, "+ ENTITY_CLASSIFICATION + " TEXT, "
                     + ENTITY_POSITION_X+ " REAL, " + ENTITY_POSITION_Y+ " REAL, "
                     + ENTITY_ROTATION_ANGLE+ " REAL, " + ENTITY_SCALE+ " REAL, "
-                    + ENTITY_IMAGE + "BLOB, "
+                    + ENTITY_IMAGE + " BLOB , "
+                    +  SCENE_ID + " INTEGER , "
                     + "FOREIGN KEY (" + SCENE_ID +") "
                     +"REFERENCES "+ SCENE_TABLE + "(" + SCENE_ID + ") );";
 
@@ -76,16 +77,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + SCENE_TABLE;
     private static final String SQL_DELETE_ENTITY =
             "DROP TABLE IF EXISTS " + ENTITY_TABLE;
-
+    private static final String FOREIGN = "PRAGMA foreign_keys = 1";
     public SQLiteDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d("StoryDB", "onCreate: "+SQL_CREATE_STORY );
+        Log.d("SceneDB", "onCreate: "+SQL_CREATE_SCENE );
+        db.execSQL(FOREIGN);
         db.execSQL(SQL_CREATE_STORY);
-        //db.execSQL(SQL_CREATE_SCENE);
-        //db.execSQL(SQL_CREATE_ENTITY);
+        db.execSQL(SQL_CREATE_SCENE);
+        db.execSQL(SQL_CREATE_ENTITY);
     }
 
     @Override
@@ -162,23 +166,26 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
+            cursor.moveToFirst();
             do {
-                Story story = new Story();
-                story.setStoryId(Integer.parseInt(cursor.getString(0)));
-                story.setStoryName(cursor.getString(cursor.getColumnIndex(STORY_NAME)));
-                story.setCover(cursor.getString(2));
-                story.setCoverColor(cursor.getString(3));
+
+                //story.setStoryId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))));
+                //story.setStoryName(cursor.getString(cursor.getColumnIndex(STORY_NAME)));
+                //Log.d("dbName ", "name----*"+cursor.getString(cursor.getColumnIndex(STORY_NAME)));
+                //story.setCover(cursor.getString(cursor.getColumnIndex(STORY_COVER)));
+                //story.setCoverColor(cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)));
 
                 Date date1= null;
                 try {
-                    date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(4));
+                    date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(cursor.getColumnIndex(STORY_DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                story.setCreationDate(date1);
-
+               // story.setCreationDate(date1);
+                Story story = new Story(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))),cursor.getString(cursor.getColumnIndex(STORY_NAME)),
+                        cursor.getString(cursor.getColumnIndex(STORY_COVER)), cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)),date1,getAllScenes(cursor.getColumnIndex(STORY_ID)) );
                 //TODO uncomment tis line when creating the  SCENE_TABLE
-                //story.setScenes(getAllScenes(story.getStoryId()));
+
 
 
                 // Adding story to list
@@ -204,11 +211,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Scene scene = new Scene();
-                scene.setId(Integer.parseInt(cursor.getString(0)));
-                scene.setNarration(cursor.getString(1));
-                scene.setCover(cursor.getString(2));
-                scene.setEntities(getAllEntities(scene.getId()));
+                Scene scene = new Scene(getAllEntities(cursor.getColumnIndex(SCENE_ID)),cursor.getString(cursor.getColumnIndex(SCENE_NARRATION)),Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID))),storyId,cursor.getString(cursor.getColumnIndex(SCENE_COVER)));
 
                 // Adding scene to list
                 sceneList.add(scene);
@@ -233,16 +236,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Entity entity = new Entity();
-                entity.setId(Integer.parseInt(cursor.getString(0)));
-                entity.setName(cursor.getString(1));
-                entity.setClassification(cursor.getString(2));
-                entity.setPositionX(Float.valueOf(cursor.getString(3)));
-                entity.setPositionY(Float.valueOf(cursor.getString(4)));
-                entity.setRotationAngle(Float.valueOf(cursor.getString(5)));
-                entity.setScale(Float.valueOf(cursor.getString(6)));
-                byte[] imgByte = cursor.getBlob(7);
-                entity.setImage(BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
+                byte[] imgByte = cursor.getBlob(cursor.getColumnIndex(ENTITY_IMAGE));
+                Entity entity = new Entity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ENTITY_ID))),cursor.getString(cursor.getColumnIndex(ENTITY_CLASSIFICATION)),
+                        cursor.getString(cursor.getColumnIndex(ENTITY_NAME)) ,BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_X))),Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_Y))),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_ROTATION_ANGLE))) ,Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_SCALE))));
+
                 // Adding entity to list
                 entityList.add(entity);
             } while (cursor.moveToNext());
@@ -269,7 +268,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
                 story = new Story(Integer.parseInt(cursor.getString(0)),
                         cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(4)));
+                        new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(4)),getAllScenes(cursor.getColumnIndex(STORY_ID)));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

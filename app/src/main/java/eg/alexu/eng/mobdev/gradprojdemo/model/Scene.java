@@ -12,6 +12,14 @@ public class Scene {
     private Integer id ;
     private Integer storyId;
     private String cover ;
+
+    public Scene(List<Entity> entities, String narration, Integer id, Integer storyId, String cover) {
+        this.entities = entities;
+        this.narration = narration;
+        this.id = id;
+        this.storyId = storyId;
+        this.cover = cover;
+    }
     // private String name;
 
     public Scene (){

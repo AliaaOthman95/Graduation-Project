@@ -29,12 +29,13 @@ public class Story {
         this.cover = cover ;
     }
 
-    public Story(int storyId, String storyName , String cover , String coverColor, Date creationDate) {
+    public Story(int storyId, String storyName , String cover , String coverColor, Date creationDate , List<Scene> scenes) {
         this.storyName = storyName;
         this.creationDate = creationDate;
         this.cover = cover;
         this.storyId = storyId;
         this.coverColor = coverColor;
+        this.scenes = scenes;
     }
 
     public int getStoryId() {
@@ -50,7 +51,7 @@ public class Story {
         return storyName;
     }
 
-    public void setStoryName(String stroyName) {
+    public void setStoryName(String storyName) {
         this.storyName = storyName;
     }
 
