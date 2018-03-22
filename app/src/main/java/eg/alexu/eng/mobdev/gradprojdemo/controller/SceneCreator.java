@@ -45,6 +45,7 @@ public class SceneCreator extends AppCompatActivity {
     private  ImageButton addEntity;
     private EditText entity_desception;
     private  AlertDialog dialog;
+    private ArrayList<Entity> entities ;
 
 
     @Override
@@ -78,7 +79,7 @@ public class SceneCreator extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_story:
-                // save story
+
                 return true;
 
         }
@@ -156,6 +157,7 @@ public class SceneCreator extends AppCompatActivity {
     private void showEntity(String descreption) {
         final Context context =getApplicationContext();
         rootLayout=(ViewGroup) findViewById(R.id.board_scene);
+        entities= new ArrayList<>();
 
         // get image of name equal of descreption
         int imageID = getResources().getIdentifier(descreption,

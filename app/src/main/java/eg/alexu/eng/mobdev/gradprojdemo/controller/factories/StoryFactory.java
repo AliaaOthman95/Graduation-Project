@@ -14,15 +14,15 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
  */
 public class StoryFactory {
 
-    public static List<Story> createRandomStories() {
+    public static List<Story> createRandomStories(int number) {
 
         List<Story> stories = new ArrayList<Story>();
         Story story ;
         Random random = new Random();
-        for(int i=0;i<10;i++){
+        for(int i = 0 ; i < number ; i++){
             String coverImagePath = "sample_cover_"+random.nextInt(6) ;
             story = new Story("story #"+i,new Date(),coverImagePath);
-            Log.d("images",coverImagePath);
+            Log.d("storyName",story.getStoryName());
             stories.add(story);
         }
 

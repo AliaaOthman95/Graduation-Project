@@ -1,5 +1,6 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +14,14 @@ import eg.alexu.eng.mobdev.gradprojdemo.R;
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static Context appContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gotoOtherActivity(Splash.class);
+        appContext = this.getBaseContext();
         finish();
     }
 

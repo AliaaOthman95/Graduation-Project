@@ -9,19 +9,32 @@ public class Scene {
 
     private List<Entity> entities ;
     private String narration ;
+    private Integer id ;
+    private Integer storyId;
     private String cover ;
-    private String name;
 
-    public Scene (String name ,String cover){
-        this.name=name;
+    public Scene(List<Entity> entities, String narration, Integer id, Integer storyId, String cover) {
+        this.entities = entities;
+        this.narration = narration;
+        this.id = id;
+        this.storyId = storyId;
+        this.cover = cover;
+    }
+    // private String name;
+
+    public Scene (){
+    }
+
+    public Scene (String cover){
+        //this.name=name;
         this.cover=cover;
     }
 
-    public List<Entity> getlist() {
+    public List<Entity> getEntities() {
         return entities;
     }
 
-    public void setList(List<Entity> entities) {
+    public void setEntities(List<Entity> entities) {
         this.entities = entities;
     }
 
@@ -33,6 +46,22 @@ public class Scene {
         this.narration = narration;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getStoryId() {
+        return storyId;
+    }
+
+    public void setStoryId(Integer storyId) {
+        this.storyId = storyId;
+    }
+
     public String getCover() {
         return cover;
     }
@@ -41,12 +70,6 @@ public class Scene {
         this.cover = cover;
     }
 
-    public String getname() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
 }

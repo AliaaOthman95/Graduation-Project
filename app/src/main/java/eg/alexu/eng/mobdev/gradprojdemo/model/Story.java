@@ -11,29 +11,48 @@ import java.util.List;
  */
 public class Story {
 
-    private String stroyName;
+    private int storyId;
+    private String storyName;
     private String cover ;
-    private Color coverColor;
+    private String coverColor;
     private Date creationDate ;
+
     private List<Scene> scenes;
 
-    public Story(String stroyName, Date creationDate) {
-        this.stroyName = stroyName;
-        this.creationDate = creationDate;
+    public Story() {
+
     }
 
-    public Story(String stroyName, Date creationDate, String cover) {
-        this.stroyName = stroyName;
+    public Story(String storyName, Date creationDate,String cover) {
+        this.storyName = storyName;
+        this.creationDate = creationDate;
+        this.cover = cover ;
+    }
+
+    public Story(int storyId, String storyName , String cover , String coverColor, Date creationDate , List<Scene> scenes) {
+        this.storyName = storyName;
         this.creationDate = creationDate;
         this.cover = cover;
+        this.storyId = storyId;
+        this.coverColor = coverColor;
+        this.scenes = scenes;
     }
 
-    public String getStroyName() {
-        return stroyName;
+    public int getStoryId() {
+        return storyId;
     }
 
-    public void setStroyName(String stroyName) {
-        this.stroyName = stroyName;
+    public void setStoryId(int storyId) {
+        this.storyId = storyId;
+    }
+
+
+    public String getStoryName() {
+        return storyName;
+    }
+
+    public void setStoryName(String storyName) {
+        this.storyName = storyName;
     }
 
     public String getCover() {
@@ -44,11 +63,11 @@ public class Story {
         this.cover = cover;
     }
 
-    public Color getCoverColor() {
+    public String getCoverColor() {
         return coverColor;
     }
 
-    public void setCoverColor(Color coverColor) {
+    public void setCoverColor(String coverColor) {
         this.coverColor = coverColor;
     }
 

@@ -13,11 +13,11 @@ public class SceneFactory {
 
     public static List<Scene> createScenes() {
         List<Scene> sceneList = new ArrayList<>();
-        Scene scene1 = new Scene("1", "scene_pic_1");
-        Scene scene2 = new Scene("2", "scene_pic_2");
-        Scene scene3 = new Scene("3", "scene_pic_1");
-        Scene scene4 = new Scene("4", "scene_pic_1");
-        Scene scene5 = new Scene("5", "scene_pic_2");
+        Scene scene1 = new Scene( "scene_pic_1");
+        Scene scene2 = new Scene( "scene_pic_2");
+        Scene scene3 = new Scene( "scene_pic_1");
+        Scene scene4 = new Scene( "scene_pic_1");
+        Scene scene5 = new Scene( "scene_pic_2");
         sceneList.add(scene1);
         sceneList.add(scene2);
         sceneList.add(scene3);
