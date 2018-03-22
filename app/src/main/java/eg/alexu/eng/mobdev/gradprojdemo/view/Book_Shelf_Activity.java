@@ -27,7 +27,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 public class Book_Shelf_Activity extends AppCompatActivity {
 
     private RecyclerView bookShelfRV ;
-    private List<Story> stories ;
+    public static List<Story> stories ;
     private Engine engine;
 
 
@@ -52,10 +52,9 @@ public class Book_Shelf_Activity extends AppCompatActivity {
             public void onClick(View view) {
                 Story  story = StoryFactory.createRandomStories(1).get(0);
                 stories.add(story);
-
                 setBookShelfContent(stories);
 
-                engine.saveStroies(story);
+                    engine.saveStroies(story);
           //      Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
             //    startActivity(myintent);
                // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
@@ -94,10 +93,13 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
     public  void onClickBook(int index) {
 
-        Toast.makeText(this,"you clicked on "+stories.get(index).getStroyName(),Toast.LENGTH_LONG)
+        Toast.makeText(this,"you clicked on "+stories.get(index).getStoryName(),Toast.LENGTH_LONG)
                 .show();
 
+
+        //stories.get(index);
         Intent myintent = new Intent(this,SceneEngine.class);
+        myintent.putExtra("Integer",index);
         startActivity(myintent);
     }
 
@@ -113,17 +115,17 @@ public class Book_Shelf_Activity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.story_menu_play:
-                        Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStroyName()
+                        Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
                         Intent myintent = new Intent(getBaseContext(),DisplayModeActivity.class);
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
-                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStroyName()
+                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
                         break;
                     case R.id.story_menu_other:
-                        Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStroyName()
+                        Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
                         break;
                 }
@@ -132,5 +134,13 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         });
         //displaying the popup
         popup.show();
+    }
+
+    @Override
+    public void onDetachedFromWindow() {
+        for(Story story : stories)
+            engine.saveStroies(story);
+        super.onDetachedFromWindow();
+
     }
 }

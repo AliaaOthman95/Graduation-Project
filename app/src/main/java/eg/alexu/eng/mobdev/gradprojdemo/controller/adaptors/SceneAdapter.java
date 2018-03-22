@@ -18,6 +18,8 @@ import java.util.List;
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.listener.ItemClickListener;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
+import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
+import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 
 /**
  * Created by shereen on 2/6/2018.
@@ -26,9 +28,11 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolder>{
 
     List<Scene> scenesList ;
+    private SceneEngine sceneEngineInstance;
 
-    public SceneAdapter (List<Scene> scenesList){
+    public SceneAdapter (List<Scene> scenesList , SceneEngine sceneEngineInstance){
         this.scenesList=scenesList;
+        this.sceneEngineInstance = sceneEngineInstance ;
     }
 
 
@@ -39,21 +43,29 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
     }
 
     @Override
-    public void onBindViewHolder(MySceneHolder holder, final int position) {
+    public void onBindViewHolder(final MySceneHolder holder, final int position) {
         Scene scene = scenesList.get(position);
        // holder.sceneName.setText(scenesList.get(position).getname());
-        Context context = holder.sceneCover.getContext();
+        final Context context = holder.sceneCover.getContext();
 
         String coverName = scenesList.get(position).getCover();
         int coverId = context.getResources().getIdentifier(coverName,
                 "drawable", context.getPackageName());
         holder.sceneCover.setImageResource(coverId);
 
+
+        holder.sceneCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sceneEngineInstance.onOptionsClick(position, holder.sceneCover);
+            }
+        });
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
-                Log.d("bbbbbbbb",scenesList.get(position).getname());
+
+                //Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
+              //  Log.d("bbbbbbbb",scenesList.get(position).getname());
             }
         });
 

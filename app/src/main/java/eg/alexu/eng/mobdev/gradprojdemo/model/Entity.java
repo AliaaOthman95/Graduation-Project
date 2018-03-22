@@ -2,10 +2,13 @@ package eg.alexu.eng.mobdev.gradprojdemo.model;
 
 import android.graphics.Point;
 import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
 /**
  * Created by Paula B. Bassily on 23/01/2018.
  */
-public class Entity {
+public class Entity implements Serializable {
 
     private int id;
     // bird, cow, or any general description
@@ -16,8 +19,13 @@ public class Entity {
     private Bitmap image ;
     private float positionX ;
 
-    public Entity(int id, String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
-        this.id = id;
+    public Entity(Bitmap image){
+        this.image = image;
+    }
+
+
+    public Entity(int id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
+        this.id =id;
         this.classification = classification;
         this.name = name;
         this.image = image;

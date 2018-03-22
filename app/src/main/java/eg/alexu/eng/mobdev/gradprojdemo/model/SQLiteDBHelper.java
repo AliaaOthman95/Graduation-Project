@@ -243,7 +243,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                         Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_ROTATION_ANGLE))) ,Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_SCALE))));
 
                 // Adding entity to list
-                entityList.add(entity);
+               entityList.add(entity);
             } while (cursor.moveToNext());
         }
 
