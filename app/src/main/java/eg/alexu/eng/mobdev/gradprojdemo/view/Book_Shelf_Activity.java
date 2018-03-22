@@ -3,12 +3,17 @@ package eg.alexu.eng.mobdev.gradprojdemo.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Display;
+import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +30,20 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     private List<Story> stories ;
     private Engine engine;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book__shelf_);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+      
         setupEngine();
 
         loadStories();
 
         setupBookShelf();
+      
         setBookShelfContent(stories);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -49,10 +56,6 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 setBookShelfContent(stories);
 
                 engine.saveStroies(story);
-
-
-
-           //
           //      Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
             //    startActivity(myintent);
                // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
@@ -74,7 +77,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
     private void setBookShelfContent(List<Story> stories) {
 
-        BookShelfAdaptor adapter = new BookShelfAdaptor(stories);
+        BookShelfAdaptor adapter = new BookShelfAdaptor(stories,this);
 
         bookShelfRV.setAdapter(adapter);
     }
@@ -89,5 +92,45 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
 
+    public  void onClickBook(int index) {
 
+        Toast.makeText(this,"you clicked on "+stories.get(index).getStroyName(),Toast.LENGTH_LONG)
+                .show();
+
+        Intent myintent = new Intent(this,SceneEngine.class);
+        startActivity(myintent);
+    }
+
+    public void onOptionsClick(final int index , View view) {
+
+        //creating a popup menu
+        PopupMenu popup = new PopupMenu(this, view);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.card_pop_menu);
+        //adding click listener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.story_menu_play:
+                        Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        Intent myintent = new Intent(getBaseContext(),DisplayModeActivity.class);
+                        startActivity(myintent);
+                        break;
+                    case R.id.story_menu_del:
+                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.story_menu_other:
+                        Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStroyName()
+                                ,Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return false;
+            }
+        });
+        //displaying the popup
+        popup.show();
+    }
 }

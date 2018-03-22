@@ -29,6 +29,11 @@
         <activity
             android:name=".view.SceneEngine"
             android:label="@string/title_Scene_Engine" />
+        <activity
+            android:name=".view.DisplayModeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_display_mode"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

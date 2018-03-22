@@ -26,6 +26,7 @@
             android:layout_toRightOf="@+id/story_cover"
             android:layout_alignParentTop="true"
             android:textSize="30sp"
+
             />
 
         <TextView
@@ -34,7 +35,18 @@
             android:id="@+id/story_date"
             android:layout_toRightOf="@+id/story_cover"
             android:layout_below="@+id/story_name"
+
             />
+        <ImageView
+            android:id="@+id/story_pop_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:src="@drawable/menu"
+            android:textAppearance="?android:textAppearanceLarge" />
+
 
     </RelativeLayout>
 
