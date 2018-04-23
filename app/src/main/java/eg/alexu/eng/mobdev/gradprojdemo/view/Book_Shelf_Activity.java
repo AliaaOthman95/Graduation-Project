@@ -137,10 +137,21 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
     @Override
-    public void onDetachedFromWindow() {
+    public void onDestroy() {
+        Toast.makeText(getBaseContext(),"da5aaaaaaaaal "
+                ,Toast.LENGTH_LONG).show();
         for(Story story : stories)
             engine.saveStroies(story);
-        super.onDetachedFromWindow();
+        super.onDestroy();
+
+    }
+    @Override
+    public void onStop() {
+        Toast.makeText(getBaseContext(),"da5aaaaaaaaal stop"
+                ,Toast.LENGTH_LONG).show();
+        for(Story story : stories)
+            engine.saveStroies(story);
+        super.onStop();
 
     }
 }

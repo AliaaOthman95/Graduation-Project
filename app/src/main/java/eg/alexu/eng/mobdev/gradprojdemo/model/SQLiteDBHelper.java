@@ -13,6 +13,7 @@ import java.util.Date;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.io.ByteArrayOutputStream ;
@@ -129,7 +130,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 ContentValues scene_details = new ContentValues();
                 scene_details.put(SCENE_NARRATION, scene.getNarration());
                 scene_details.put(SCENE_COVER, scene.getCover());
-                scene_details.put(STORY_ID, scene.getId());
+                scene_details.put(STORY_ID, story.getStoryId());
                 db.insert(SCENE_TABLE, null, scene_details);
 
                 for (Entity entity : scene.getEntities()) {
@@ -143,6 +144,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     entity_details.put(ENTITY_SCALE, entity.getScale());
                     entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
                     entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
+                    entity_details.put(SCENE_ID, scene.getId());
                     db.insert(ENTITY_TABLE, null, entity_details);
                 }
 
@@ -192,7 +194,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 storyList.add(story);
             } while (cursor.moveToNext());
         }
-
+        Log.d("grb", "here");
         // return story list
         return storyList;
 
@@ -218,6 +220,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        Log.d("sceneList", "size" + sceneList.size());
         // return scene list
         return sceneList;
 
@@ -295,27 +298,32 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(story.getStoryId())});
 
         for (Scene scene : story.getScenes()) {
-
+            if(story.getScenes()!= null)
+                Log.d("saving", "saveStroies:..... "+story.getScenes().size());
             ContentValues scene_details = new ContentValues();
             scene_details.put(SCENE_NARRATION, scene.getNarration());
             scene_details.put(SCENE_COVER, scene.getCover());
-            scene_details.put(STORY_ID, scene.getId());
-            db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",
-                    new String[]{String.valueOf(scene.getId())});
+            scene_details.put(STORY_ID, story.getStoryId());
 
-            for (Entity entity : scene.getEntities()) {
+            /*db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",
+                    new String[]{String.valueOf(scene.getId())});*/
 
-                ContentValues entity_details = new ContentValues();
-                entity_details.put(ENTITY_NAME, entity.getName());
-                entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
-                entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
-                entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
-                entity_details.put(ENTITY_SCALE, entity.getScale());
-                entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
-                entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
+            db.insert(SCENE_TABLE, null, scene_details);
+            if(scene.getEntities() != null) {
+                for (Entity entity : scene.getEntities()) {
 
-                db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
-                        new String[]{String.valueOf(entity.getId())});
+                    ContentValues entity_details = new ContentValues();
+                    entity_details.put(ENTITY_NAME, entity.getName());
+                    entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
+                    entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
+                    entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
+                    entity_details.put(ENTITY_SCALE, entity.getScale());
+                    entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
+                    entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
+                    entity_details.put(SCENE_ID, scene.getId());
+                    db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
+                            new String[]{String.valueOf(entity.getId())});
+                }
             }
 
         }
