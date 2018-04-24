@@ -185,7 +185,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 }
                // story.setCreationDate(date1);
                 Story story = new Story(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))),cursor.getString(cursor.getColumnIndex(STORY_NAME)),
-                        cursor.getString(cursor.getColumnIndex(STORY_COVER)), cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)),date1,getAllScenes(cursor.getColumnIndex(STORY_ID)) );
+                        cursor.getString(cursor.getColumnIndex(STORY_COVER)), cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)),date1,getAllScenes(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID)))));
                 //TODO uncomment tis line when creating the  SCENE_TABLE
 
 
@@ -199,7 +199,40 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return storyList;
 
     }
+    //Retrieves details all stories
+    public int getLastStoryId() {
 
+        ArrayList <Story> storyList = new ArrayList<Story>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + STORY_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
+    //Retrieves details all stories
+    public int getLastSceneId() {
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + SCENE_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
+    //Retrieves details all stories
+    public int getLastEntityId() {
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + ENTITY_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
     //Retrieves details all scenes
     public ArrayList<Scene> getAllScenes(int storyId) {
 
@@ -212,15 +245,17 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
+
             do {
-                Scene scene = new Scene(getAllEntities(cursor.getColumnIndex(SCENE_ID)),cursor.getString(cursor.getColumnIndex(SCENE_NARRATION)),Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID))),storyId,cursor.getString(cursor.getColumnIndex(SCENE_COVER)));
+                Log.d("sceneList", "yaraaaaaaaaaaab");
+                Scene scene = new Scene(getAllEntities(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID)))),cursor.getString(cursor.getColumnIndex(SCENE_NARRATION)),Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID))),storyId,cursor.getString(cursor.getColumnIndex(SCENE_COVER)));
 
                 // Adding scene to list
                 sceneList.add(scene);
             } while (cursor.moveToNext());
         }
 
-        Log.d("sceneList", "size" + sceneList.size());
+
         // return scene list
         return sceneList;
 
@@ -257,14 +292,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
 
     //Returns details of a particular story
-    public Story getStory(int storyId) {
+    public Story getStory(Integer storyId) {
 
+        if(storyId == null) return null;
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(STORY_TABLE, new String[] { STORY_ID,
                         STORY_NAME, STORY_COVER, STORY_COVER_COLOR, STORY_DATE }, STORY_ID + "=?",
                 new String[] { String.valueOf(storyId) }, null, null, null, null);
         Story story = null;
+
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             try {
@@ -279,6 +316,38 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         return story;
 
+    }
+
+    public boolean sceneExists(Integer sceneId) {
+
+        if(sceneId == null) return false;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(SCENE_TABLE, new String[] { SCENE_ID,
+                        SCENE_NARRATION, SCENE_COVER, STORY_ID }, SCENE_ID + "=?",
+                new String[] { String.valueOf(sceneId) }, null, null, null, null);
+        Story story = null;
+        if (cursor != null && cursor.getCount() > 0) {
+           return true;
+        }
+
+        return false;
+    }
+    public boolean entityExists(Integer entityId) {
+
+        if(entityId == null) return false;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(ENTITY_TABLE, new String[] { ENTITY_ID}, ENTITY_ID + "=?",
+                new String[] { String.valueOf(entityId) }, null, null, null, null);
+        Story story = null;
+        if (cursor != null && cursor.getCount() > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     //Update the details of story
@@ -296,36 +365,42 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         db.update(STORY_TABLE, story_details, STORY_ID + " = ?",
                 new String[]{String.valueOf(story.getStoryId())});
+        if(story.getScenes()!= null ) {
+            for (Scene scene : story.getScenes()) {
 
-        for (Scene scene : story.getScenes()) {
-            if(story.getScenes()!= null)
-                Log.d("saving", "saveStroies:..... "+story.getScenes().size());
-            ContentValues scene_details = new ContentValues();
-            scene_details.put(SCENE_NARRATION, scene.getNarration());
-            scene_details.put(SCENE_COVER, scene.getCover());
-            scene_details.put(STORY_ID, story.getStoryId());
-
-            /*db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",
-                    new String[]{String.valueOf(scene.getId())});*/
-
-            db.insert(SCENE_TABLE, null, scene_details);
-            if(scene.getEntities() != null) {
-                for (Entity entity : scene.getEntities()) {
-
-                    ContentValues entity_details = new ContentValues();
-                    entity_details.put(ENTITY_NAME, entity.getName());
-                    entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
-                    entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
-                    entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
-                    entity_details.put(ENTITY_SCALE, entity.getScale());
-                    entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
-                    entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
-                    entity_details.put(SCENE_ID, scene.getId());
-                    db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
-                            new String[]{String.valueOf(entity.getId())});
+                ContentValues scene_details = new ContentValues();
+                scene_details.put(SCENE_NARRATION, scene.getNarration());
+                scene_details.put(SCENE_COVER, scene.getCover());
+                scene_details.put(STORY_ID, story.getStoryId());
+                if (scene.getId() != null && sceneExists(scene.getId())) {
+                    db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",
+                            new String[]{String.valueOf(scene.getId())});
+                } else {
+                    db.insert(SCENE_TABLE, null, scene_details);
                 }
-            }
+                if (scene.getEntities() != null) {
+                    for (Entity entity : scene.getEntities()) {
 
+                        ContentValues entity_details = new ContentValues();
+                        entity_details.put(ENTITY_NAME, entity.getName());
+                        entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
+                        entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
+                        entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
+                        entity_details.put(ENTITY_SCALE, entity.getScale());
+                        entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
+                        entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
+                        entity_details.put(SCENE_ID, scene.getId());
+
+                        if (entity.getId() != null && entityExists(entity.getId())) {
+                            db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
+                                    new String[]{String.valueOf(entity.getId())});
+                        } else {
+                            db.insert(ENTITY_TABLE, null, scene_details);
+                        }
+                    }
+                }
+
+            }
         }
     }
 

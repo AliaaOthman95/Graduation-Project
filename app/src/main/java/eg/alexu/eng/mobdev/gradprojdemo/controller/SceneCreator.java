@@ -35,6 +35,8 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 
+import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
+
 public class SceneCreator extends AppCompatActivity {
 
     private float scalediff;
@@ -46,12 +48,13 @@ public class SceneCreator extends AppCompatActivity {
     private float d = 0f;
     private float newRot = 0f;
     private ViewGroup rootLayout;
-    private  ImageButton addEntity;
+    private ImageButton addEntity;
     private EditText entity_desception;
-    private  AlertDialog dialog;
+    private AlertDialog dialog;
     private List<Entity> entities ;
     private Scene scene;
     private int sceneIndex ;
+    private Engine engine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,9 @@ public class SceneCreator extends AppCompatActivity {
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
         sceneIndex = (int) getIntent().getSerializableExtra("Integer");
-        scene= SceneEngine.story.getScenes().get(sceneIndex);
+        scene = story.getScenes().get(sceneIndex);
         entities =  scene.getEntities();
+        engine= Engine.getInstance();
         if(entities == null){
             entities = new ArrayList<Entity>();
         }
@@ -173,6 +177,8 @@ public class SceneCreator extends AppCompatActivity {
         Entity entity = new Entity(mIconBitmap);
         entities.add(entity);
         scene.setEntities(entities);
+        engine.saveStroies(SceneEngine.story);
+        entity.setId(engine.getLastEntityId());
     }
 
     private void loadEntity() {

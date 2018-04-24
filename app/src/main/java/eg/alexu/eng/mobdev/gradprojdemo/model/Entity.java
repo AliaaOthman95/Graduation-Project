@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class Entity implements Serializable {
 
-    private int id;
+    private Integer id;
     // bird, cow, or any general description
     private String classification ;
     // if this entity is somehow important in the story , it should have name e.g. Nemo
@@ -24,7 +24,7 @@ public class Entity implements Serializable {
     }
 
 
-    public Entity(int id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
+    public Entity(Integer id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
         this.id =id;
         this.classification = classification;
         this.name = name;
@@ -38,10 +38,10 @@ public class Entity implements Serializable {
     private float positionY ;
     private float rotationAngle;
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
 
     }

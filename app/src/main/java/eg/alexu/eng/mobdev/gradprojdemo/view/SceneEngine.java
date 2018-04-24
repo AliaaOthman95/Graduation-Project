@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.SceneAdapter;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.SceneFactory;
@@ -35,6 +37,7 @@ public class SceneEngine extends AppCompatActivity {
     private RecyclerView recyclerView;
     public static Story story;
     private int story_index ;
+    private Engine engine;
     SceneFactory sceneFactory ;
 
     @SuppressLint("WrongViewCast")
@@ -44,7 +47,7 @@ public class SceneEngine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_scene_engine);
-
+        engine = Engine.getInstance();
         story_index = (int) getIntent().getSerializableExtra("Integer");
         story = Book_Shelf_Activity.stories.get(story_index);
 
@@ -61,14 +64,22 @@ public class SceneEngine extends AppCompatActivity {
 //                myintent.putExtra("Scene",new Scene());
 //                startActivity(myintent);
 
+
                 List<Scene> scenes  = story.getScenes();
-                scenes.add(SceneFactory.createScenes().get(0));
+                if(scenes == null) scenes = new ArrayList<Scene>();
+                Scene scene = SceneFactory.createScenes().get(0);
+                scenes.add(scene);
                 story.setScenes(scenes);
+
+                engine.saveStroies(story);
+                scene.setId(engine.getLastSceneId());
+
                 updateScenesListView();
 
                 // update Bookshelf stories
 
-                Book_Shelf_Activity.stories.set(story_index,story);
+                //Book_Shelf_Activity.stories.set(story_index,story);
+
 
             }
         });

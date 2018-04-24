@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Story implements Serializable{
 
-    private int storyId;
+    private Integer storyId;
     private String storyName;
     private String cover ;
     private String coverColor;
@@ -30,7 +30,7 @@ public class Story implements Serializable{
         this.cover = cover ;
     }
 
-    public Story(int storyId, String storyName , String cover , String coverColor, Date creationDate , List<Scene> scenes) {
+    public Story(Integer storyId, String storyName , String cover , String coverColor, Date creationDate , List<Scene> scenes) {
         this.storyName = storyName;
         this.creationDate = creationDate;
         this.cover = cover;
@@ -39,11 +39,11 @@ public class Story implements Serializable{
         this.scenes = scenes;
     }
 
-    public int getStoryId() {
+    public Integer getStoryId() {
         return storyId;
     }
 
-    public void setStoryId(int storyId) {
+    public void setStoryId(Integer storyId) {
         this.storyId = storyId;
     }
 

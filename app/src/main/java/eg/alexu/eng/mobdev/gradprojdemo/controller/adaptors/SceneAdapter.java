@@ -75,6 +75,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
 
     @Override
     public int getItemCount() {
+        if(scenesList == null) return 0 ;
         return scenesList.size();
     }
 

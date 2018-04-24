@@ -53,12 +53,11 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 Story  story = StoryFactory.createRandomStories(1).get(0);
                 stories.add(story);
                 setBookShelfContent(stories);
+                Log.d("storyIDbeforeSave","eih el kalam");
+                engine.saveStroies(story);
+                Log.d("storyIDAfterSave",engine.getLastStoryId()+" is the last id");
+                story.setStoryId(engine.getLastStoryId());
 
-                    engine.saveStroies(story);
-          //      Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
-            //    startActivity(myintent);
-               // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
-                        //.setAction("Action", null).show();
             }
         });
     }
@@ -136,7 +135,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         popup.show();
     }
 
-    @Override
+  /*  @Override
     public void onDestroy() {
         Toast.makeText(getBaseContext(),"da5aaaaaaaaal "
                 ,Toast.LENGTH_LONG).show();
@@ -144,7 +143,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
             engine.saveStroies(story);
         super.onDestroy();
 
-    }
+    }*/
     @Override
     public void onStop() {
         Toast.makeText(getBaseContext(),"da5aaaaaaaaal stop"

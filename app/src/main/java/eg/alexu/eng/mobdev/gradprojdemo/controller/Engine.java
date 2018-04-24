@@ -40,9 +40,24 @@ public class Engine {
             Log.d("updateStory" , "hiiiiiiiiiiii");
             db.updateStory(story);
         }else{
-            Log.d("updateStory" , "byeeeeeeeeeee");
+            Log.d("addStory" , "byeeeeeeeeeee");
             db.addStory(story);
         }
+
+    }
+    public int getLastStoryId(){
+
+       return db.getLastStoryId();
+
+    }
+    public int getLastSceneId(){
+
+        return db.getLastSceneId();
+
+    }
+    public int getLastEntityId(){
+
+        return db.getLastEntityId();
 
     }
 
