@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.controller;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 
 public class SceneCreator extends AppCompatActivity {
 
@@ -53,6 +55,7 @@ public class SceneCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
+
 
         addEntity = (ImageButton) findViewById(R.id.send);
         // entityName=(EditText) findViewById(R.id.text);
@@ -169,7 +172,6 @@ public class SceneCreator extends AppCompatActivity {
         image.setLayoutParams(layoutParams);
         image.setOnTouchListener(new newChoiceTouchListener());
         rootLayout.addView(image);
-
 
     }
 

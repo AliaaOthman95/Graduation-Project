@@ -42,7 +42,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
     public void onBindViewHolder(MySceneHolder holder, final int position) {
         Scene scene = scenesList.get(position);
        // holder.sceneName.setText(scenesList.get(position).getname());
-        Context context = holder.sceneCover.getContext();
+        final Context context = holder.sceneCover.getContext();
 
         String coverName = scenesList.get(position).getCover();
         int coverId = context.getResources().getIdentifier(coverName,
@@ -52,13 +52,9 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
-                Log.d("bbbbbbbb",scenesList.get(position).getname());
+                Toast.makeText(context,"click",Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
 
     @Override

@@ -93,7 +93,7 @@ public class SceneEngine extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // create scences and set them to adapter
-        SceneAdapter adapter = new SceneAdapter(sceneFactory.createScenes());
+        SceneAdapter adapter = new SceneAdapter(SceneFactory.createScenes(this));
         recyclerView.setAdapter(adapter);
     }
 }
