@@ -395,7 +395,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                             db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
                                     new String[]{String.valueOf(entity.getId())});
                         } else {
-                            db.insert(ENTITY_TABLE, null, scene_details);
+                            db.insert(ENTITY_TABLE, null, entity_details);
                         }
                     }
                 }
