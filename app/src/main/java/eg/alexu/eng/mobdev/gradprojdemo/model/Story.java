@@ -3,37 +3,57 @@ package eg.alexu.eng.mobdev.gradprojdemo.model;
 import android.graphics.Color;
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Paula B. Bassily on 23/01/2018.
  */
-public class Story {
+public class Story implements Serializable{
 
-    private String stroyName;
+    private Integer storyId;
+    private String storyName;
     private String cover ;
-    private Color coverColor;
+    private String coverColor;
     private Date creationDate ;
+
     private List<Scene> scenes;
 
-    public Story(String stroyName, Date creationDate) {
-        this.stroyName = stroyName;
-        this.creationDate = creationDate;
+    public Story() {
+
     }
 
-    public Story(String stroyName, Date creationDate, String cover) {
-        this.stroyName = stroyName;
+    public Story(String storyName, Date creationDate,String cover) {
+        this.storyName = storyName;
+        this.creationDate = creationDate;
+        this.cover = cover ;
+    }
+
+    public Story(Integer storyId, String storyName , String cover , String coverColor, Date creationDate , List<Scene> scenes) {
+        this.storyName = storyName;
         this.creationDate = creationDate;
         this.cover = cover;
+        this.storyId = storyId;
+        this.coverColor = coverColor;
+        this.scenes = scenes;
     }
 
-    public String getStroyName() {
-        return stroyName;
+    public Integer getStoryId() {
+        return storyId;
     }
 
-    public void setStroyName(String stroyName) {
-        this.stroyName = stroyName;
+    public void setStoryId(Integer storyId) {
+        this.storyId = storyId;
+    }
+
+
+    public String getStoryName() {
+        return storyName;
+    }
+
+    public void setStoryName(String storyName) {
+        this.storyName = storyName;
     }
 
     public String getCover() {
@@ -44,11 +64,11 @@ public class Story {
         this.cover = cover;
     }
 
-    public Color getCoverColor() {
+    public String getCoverColor() {
         return coverColor;
     }
 
-    public void setCoverColor(Color coverColor) {
+    public void setCoverColor(String coverColor) {
         this.coverColor = coverColor;
     }
 

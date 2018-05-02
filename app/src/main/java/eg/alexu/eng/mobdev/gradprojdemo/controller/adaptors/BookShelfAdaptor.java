@@ -46,7 +46,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
         @Override
         public void onBindViewHolder(final StroyCardViewHolder holder, final int index) {
 
-            holder.storyName.setText(storyList.get(index).getStroyName());
+            holder.storyName.setText(storyList.get(index).getStoryName());
 
             holder.storyDate.setText(storyList.get(index).getCreationDate()+"");
             final Context context = holder.storyCover.getContext();

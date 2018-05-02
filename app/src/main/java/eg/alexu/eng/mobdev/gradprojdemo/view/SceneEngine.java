@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -11,32 +12,45 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.SceneAdapter;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.SceneFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 
 public class SceneEngine extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-
+    public static Story story;
+    private int story_index ;
+    private Engine engine;
     SceneFactory sceneFactory ;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_scene_engine);
+        engine = Engine.getInstance();
+        story_index = (int) getIntent().getSerializableExtra("Integer");
+        story = Book_Shelf_Activity.stories.get(story_index);
 
         setRecyclerView();
 
@@ -46,12 +60,35 @@ public class SceneEngine extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent myintent = new Intent(getBaseContext(), SceneCreator.class);
-                startActivity(myintent);
+
+//                Intent myintent = new Intent(getBaseContext(), SceneCreator.class);
+//                myintent.putExtra("Scene",new Scene());
+//                startActivity(myintent);
+
+
+                List<Scene> scenes  = story.getScenes();
+                if(scenes == null) scenes = new ArrayList<Scene>();
+                Scene scene = getNewScene() ;
+                scenes.add(scene);
+                story.setScenes(scenes);
+
+                engine.saveStroies(story);
+                scene.setId(engine.getLastSceneId());
+
+                updateScenesListView();
+
+                // update Bookshelf stories
+
+                //Book_Shelf_Activity.stories.set(story_index,story);
+
 
             }
         });
 
+    }
+
+    private Scene getNewScene() {
+        return SceneFactory.createBlackScene();
     }
 
     @Override
@@ -92,8 +129,22 @@ public class SceneEngine extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        updateScenesListView();
+
+    }
+    private void updateScenesListView(){
+
         // create scences and set them to adapter
-        SceneAdapter adapter = new SceneAdapter(sceneFactory.createScenes());
+        SceneAdapter adapter = new SceneAdapter(story.getScenes(),this);
+
         recyclerView.setAdapter(adapter);
+    }
+
+    public void onOptionsClick(int position, ImageView sceneCover) {
+
+        Toast.makeText(this,"fataaa7 ya ged3an", Toast.LENGTH_SHORT).show();
+        Intent myintent = new Intent(this,SceneCreator.class);
+        myintent.putExtra("Integer",position);
+        startActivity(myintent);
     }
 }

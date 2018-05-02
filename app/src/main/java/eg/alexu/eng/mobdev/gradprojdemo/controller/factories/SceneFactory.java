@@ -1,8 +1,11 @@
 package eg.alexu.eng.mobdev.gradprojdemo.controller.factories;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 
 /**
@@ -11,32 +14,17 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 
 public class SceneFactory {
 
-    public static List<Scene> createScenes() {
+    public static List<Scene> createSampleScenes() {
         List<Scene> sceneList = new ArrayList<>();
-        Scene scene1 = new Scene("1", "scene_pic_1");
-        Scene scene2 = new Scene("2", "scene_pic_2");
-        Scene scene3 = new Scene("3", "scene_pic_1");
-        Scene scene4 = new Scene("4", "scene_pic_1");
-        Scene scene5 = new Scene("5", "scene_pic_2");
+        Scene scene1 = new Scene(EntityFactory.createEntites(),"beautiful girafe & elephant",null,null, "scene_pic_1");
+        Scene scene2 = new Scene(EntityFactory.createEntites() ,"and they always still beautiful girafe & elephant",null,null, "scene_pic_2");
         sceneList.add(scene1);
         sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-        sceneList.add(scene5);
-        sceneList.add(scene1);
-        sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-        sceneList.add(scene1);
-        sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-        sceneList.add(scene1);
-        sceneList.add(scene2);
-        sceneList.add(scene3);
-        sceneList.add(scene4);
-
         return sceneList;
+    }
+
+    public static Scene createBlackScene(){
+        return new Scene(null , "" , null , null , "scene_pic_1") ;
     }
 
 

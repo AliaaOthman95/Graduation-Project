@@ -18,6 +18,8 @@ import java.util.List;
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.listener.ItemClickListener;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
+import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
+import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 
 /**
  * Created by shereen on 2/6/2018.
@@ -26,9 +28,11 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolder>{
 
     List<Scene> scenesList ;
+    private SceneEngine sceneEngineInstance;
 
-    public SceneAdapter (List<Scene> scenesList){
+    public SceneAdapter (List<Scene> scenesList , SceneEngine sceneEngineInstance){
         this.scenesList=scenesList;
+        this.sceneEngineInstance = sceneEngineInstance ;
     }
 
 
@@ -39,10 +43,9 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
     }
 
     @Override
-    public void onBindViewHolder(MySceneHolder holder, final int position) {
+    public void onBindViewHolder(final MySceneHolder holder, final int position) {
         Scene scene = scenesList.get(position);
-
-        holder.sceneName.setText(scenesList.get(position).getname());
+       // holder.sceneName.setText(scenesList.get(position).getname());
         final Context context = holder.sceneCover.getContext();
 
         String coverName = scenesList.get(position).getCover();
@@ -50,20 +53,26 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
                 "drawable", context.getPackageName());
         holder.sceneCover.setImageResource(coverId);
 
+
+        holder.sceneCover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sceneEngineInstance.onOptionsClick(position, holder.sceneCover);
+            }
+        });
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
-                Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
-                Log.d("bbbbbbbb",scenesList.get(position).getname());
+              
+                Toast.makeText(context,"click",Toast.LENGTH_LONG).show();
+
             }
         });
-
-
-
     }
 
     @Override
     public int getItemCount() {
+        if(scenesList == null) return 0 ;
         return scenesList.size();
     }
 
@@ -76,7 +85,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         public MySceneHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
-            sceneName = (TextView) itemView.findViewById(R.id.sceneName);
+            //sceneName = (TextView) itemView.findViewById(R.id.sceneName);
             sceneCover =(ImageView) itemView.findViewById(R.id.sceneCover);
             itemView.setOnClickListener(this);
         }
