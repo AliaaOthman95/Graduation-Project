@@ -28,10 +28,16 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
+import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
+
+import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
+
 
 public class SceneCreator extends AppCompatActivity {
 
@@ -44,17 +50,27 @@ public class SceneCreator extends AppCompatActivity {
     private float d = 0f;
     private float newRot = 0f;
     private ViewGroup rootLayout;
-    private  ImageButton addEntity;
+    private ImageButton addEntity;
     private EditText entity_desception;
-    private  AlertDialog dialog;
-    private ArrayList<Entity> entities ;
-
+    private AlertDialog dialog;
+    private List<Entity> entities ;
+    private Scene scene;
+    private int sceneIndex ;
+    private Engine engine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
+        sceneIndex = (int) getIntent().getSerializableExtra("Integer");
+        scene = story.getScenes().get(sceneIndex);
+        entities =  scene.getEntities();
+        engine= Engine.getInstance();
+        if(entities == null){
+            entities = new ArrayList<Entity>();
+        }
+        loadEntity();
 
 
         addEntity = (ImageButton) findViewById(R.id.send);
@@ -105,7 +121,7 @@ public class SceneCreator extends AppCompatActivity {
             public void onClick(View v) {
                 // get entity from server
                 if(!entity_desception.getText().toString().isEmpty()){
-                    showEntity(entity_desception.getText().toString().toLowerCase());
+                    createEntity(entity_desception.getText().toString().toLowerCase());
                     dialog.dismiss();
                 }
             }
@@ -157,16 +173,29 @@ public class SceneCreator extends AppCompatActivity {
         }
     }
 
-    private void showEntity(String descreption) {
+    private void  createEntity(String descreption){
+        int imageID = getResources().getIdentifier(descreption,"drawable", getPackageName());
+        Bitmap mIconBitmap = BitmapFactory.decodeResource(getResources(), imageID);
+        showEntity(mIconBitmap);
+        Entity entity = new Entity(mIconBitmap);
+        entities.add(entity);
+        scene.setEntities(entities);
+        engine.saveStroies(SceneEngine.story);
+        entity.setId(engine.getLastEntityId());
+    }
+
+    private void loadEntity() {
+        if(entities != null ){
+            for(Entity entity : entities){
+              showEntity(entity.getImage());
+            }
+        }
+    }
+
+    private void showEntity(Bitmap mIconBitmap){
         final Context context =getApplicationContext();
         rootLayout=(ViewGroup) findViewById(R.id.board_scene);
-        entities= new ArrayList<>();
-
-        // get image of name equal of descreption
-        int imageID = getResources().getIdentifier(descreption,
-                "drawable", getPackageName());
         ImageView image = new ImageView(getApplicationContext());
-        Bitmap mIconBitmap = BitmapFactory.decodeResource(getResources(), imageID);
         image.setImageBitmap(mIconBitmap);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
         image.setLayoutParams(layoutParams);
@@ -292,6 +321,9 @@ public class SceneCreator extends AppCompatActivity {
             double radians = Math.atan2(delta_y, delta_x);
             return (float) Math.toDegrees(radians);
         }
+
+
+
     }
 
 

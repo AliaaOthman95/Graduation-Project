@@ -27,7 +27,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 public class Book_Shelf_Activity extends AppCompatActivity {
 
     private RecyclerView bookShelfRV ;
-    private List<Story> stories ;
+    public static List<Story> stories ;
     private Engine engine;
 
 
@@ -50,16 +50,14 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Story  story = StoryFactory.createRandomStories(1).get(0);
-               // stories.add(story);
 
-               // setBookShelfContent(stories);
-
-               // engine.saveStroies(story);
-               Intent myintent = new Intent(getBaseContext(),SceneEngine.class);
-               startActivity(myintent);
-               // Snackbar.make(view, "lesa shwaya", Snackbar.LENGTH_LONG)
-                        //.setAction("Action", null).show();
+                Story  story = StoryFactory.createRandomStories(1).get(0);
+                stories.add(story);
+                setBookShelfContent(stories);
+                Log.d("storyIDbeforeSave","eih el kalam");
+                engine.saveStroies(story);
+                Log.d("storyIDAfterSave",engine.getLastStoryId()+" is the last id");
+                story.setStoryId(engine.getLastStoryId());
             }
         });
     }
@@ -97,7 +95,10 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         Toast.makeText(this,"you clicked on "+stories.get(index).getStoryName(),Toast.LENGTH_LONG)
                 .show();
 
+
+        //stories.get(index);
         Intent myintent = new Intent(this,SceneEngine.class);
+        myintent.putExtra("Integer",index);
         startActivity(myintent);
     }
 
@@ -132,5 +133,24 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         });
         //displaying the popup
         popup.show();
+    }
+
+  /*  @Override
+    public void onDestroy() {
+        Toast.makeText(getBaseContext(),"da5aaaaaaaaal "
+                ,Toast.LENGTH_LONG).show();
+        for(Story story : stories)
+            engine.saveStroies(story);
+        super.onDestroy();
+
+    }*/
+    @Override
+    public void onStop() {
+        Toast.makeText(getBaseContext(),"da5aaaaaaaaal stop"
+                ,Toast.LENGTH_LONG).show();
+        for(Story story : stories)
+            engine.saveStroies(story);
+        super.onStop();
+
     }
 }

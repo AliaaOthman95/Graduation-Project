@@ -10,6 +10,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -30,4 +31,5 @@ dependencies {
     compile 'com.android.support:design:27.0.0'
     compile 'com.github.kapil93:circular-layout-manager:1.0.0'
     compile 'com.android.support:support-v4:27.0.0'
+
 }

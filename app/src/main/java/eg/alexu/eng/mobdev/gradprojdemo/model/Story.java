@@ -3,13 +3,14 @@ package eg.alexu.eng.mobdev.gradprojdemo.model;
 import android.graphics.Color;
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Paula B. Bassily on 23/01/2018.
  */
-public class Story {
+public class Story implements Serializable{
 
     private Integer storyId;
     private String storyName;

@@ -3,10 +3,13 @@ package eg.alexu.eng.mobdev.gradprojdemo.model;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
 /**
  * Created by Paula B. Bassily on 23/01/2018.
  */
-public class Entity {
+public class Entity implements Serializable {
 
     private Integer id;
     // bird, cow, or any general description
@@ -20,8 +23,14 @@ public class Entity {
     private float rotationAngle;
     private float scale ;
 
-    public Entity(Integer id, String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
-        this.id = id;
+
+    public Entity(Bitmap image){
+        this.image = image;
+    }
+
+
+    public Entity(Integer id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
+        this.id =id;
         this.classification = classification;
         this.name = name;
         this.image = image;
@@ -30,8 +39,6 @@ public class Entity {
         this.rotationAngle = rotationAngle;
         this.scale = scale;
     }
-
-
 
     public void setId(Integer id) {
         this.id = id;
