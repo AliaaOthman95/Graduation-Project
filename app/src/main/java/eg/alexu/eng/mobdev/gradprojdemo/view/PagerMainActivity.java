@@ -22,9 +22,10 @@ public class PagerMainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pager_main);
-        Story staticStory =  new Story(null, null , null , null, null,SceneFactory.createScenes(this));
+        int storyIndex = (int) getIntent().getSerializableExtra("story_index");
+        Story story = Book_Shelf_Activity.stories.get(storyIndex);
         storyViewPager = (ViewPager)findViewById(R.id.story_view_pager);
-        SwipeAdapter swipeAdapter =  new SwipeAdapter(getSupportFragmentManager(),staticStory);
+        SwipeAdapter swipeAdapter =  new SwipeAdapter(getSupportFragmentManager(),story);
         storyViewPager.setAdapter(swipeAdapter);
     }
 }

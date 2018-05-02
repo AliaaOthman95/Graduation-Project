@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -67,7 +68,7 @@ public class SceneEngine extends AppCompatActivity {
 
                 List<Scene> scenes  = story.getScenes();
                 if(scenes == null) scenes = new ArrayList<Scene>();
-                Scene scene = SceneFactory.createScenes().get(0);
+                Scene scene = getNewScene() ;
                 scenes.add(scene);
                 story.setScenes(scenes);
 
@@ -84,6 +85,10 @@ public class SceneEngine extends AppCompatActivity {
             }
         });
 
+    }
+
+    private Scene getNewScene() {
+        return SceneFactory.createBlackScene();
     }
 
     @Override

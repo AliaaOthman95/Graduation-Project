@@ -14,13 +14,17 @@ import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 
 public class SceneFactory {
 
-    public static List<Scene> createScenes(Activity inst) {
+    public static List<Scene> createSampleScenes() {
         List<Scene> sceneList = new ArrayList<>();
-        Scene scene1 = new Scene(EntityFactory.createEntites(inst),"beautiful girafe & elephant",null,null, "scene_pic_1");
-        Scene scene2 = new Scene(EntityFactory.createEntites(inst) ,"and they always still beautiful girafe & elephant",null,null, "scene_pic_2");
+        Scene scene1 = new Scene(EntityFactory.createEntites(),"beautiful girafe & elephant",null,null, "scene_pic_1");
+        Scene scene2 = new Scene(EntityFactory.createEntites() ,"and they always still beautiful girafe & elephant",null,null, "scene_pic_2");
         sceneList.add(scene1);
         sceneList.add(scene2);
         return sceneList;
+    }
+
+    public static Scene createBlackScene(){
+        return new Scene(null , "" , null , null , "scene_pic_1") ;
     }
 
 

@@ -15,13 +15,17 @@ import eg.alexu.eng.mobdev.gradprojdemo.R;
 public class MainActivity extends AppCompatActivity {
 
     public static Context appContext;
+    public static AppCompatActivity appCompatActivity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        gotoOtherActivity(Splash.class);
         appContext = this.getBaseContext();
+        appCompatActivity=this;
+
+        gotoOtherActivity(Splash.class);
+
         finish();
     }
 

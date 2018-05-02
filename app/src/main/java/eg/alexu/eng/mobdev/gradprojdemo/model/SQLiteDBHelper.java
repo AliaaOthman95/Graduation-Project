@@ -46,7 +46,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     public static final String ENTITY_POSITION_X = "entity_position_x";
     public static final String ENTITY_POSITION_Y = "entity_position_y";
     public static final String ENTITY_ROTATION_ANGLE = "entity_rotation_angle";
-    public static final String ENTITY_SCALE = "entity_scale";
+    public static final String ENTITY_SCALE_X = "entity_scale_x";
+    public static final String ENTITY_SCALE_Y = "entity_scale_y";
     public static final String ENTITY_IMAGE = "entity_image";
 
     //Create story Table Query
@@ -66,7 +67,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             "CREATE TABLE ENTITY (" + ENTITY_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + ENTITY_NAME+ " TEXT, "+ ENTITY_CLASSIFICATION + " TEXT, "
                     + ENTITY_POSITION_X+ " REAL, " + ENTITY_POSITION_Y+ " REAL, "
-                    + ENTITY_ROTATION_ANGLE+ " REAL, " + ENTITY_SCALE+ " REAL, "
+                    + ENTITY_ROTATION_ANGLE+ " REAL, " + ENTITY_SCALE_X+ " REAL, "
+                    + ENTITY_SCALE_Y+ " REAL, "
                     + ENTITY_IMAGE + " BLOB , "
                     +  SCENE_ID + " INTEGER , "
                     + "FOREIGN KEY (" + SCENE_ID +") "
@@ -141,7 +143,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                     entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
                     entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
                     entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
-                    entity_details.put(ENTITY_SCALE, entity.getScale());
+                    entity_details.put(ENTITY_SCALE_X, entity.getScaleX());
+                    entity_details.put(ENTITY_SCALE_Y, entity.getScaleY());
                     entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
                     entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
                     entity_details.put(SCENE_ID, scene.getId());
@@ -275,10 +278,16 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 byte[] imgByte = cursor.getBlob(cursor.getColumnIndex(ENTITY_IMAGE));
-                Entity entity = new Entity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ENTITY_ID))),cursor.getString(cursor.getColumnIndex(ENTITY_CLASSIFICATION)),
-                        cursor.getString(cursor.getColumnIndex(ENTITY_NAME)) ,BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length),
-                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_X))),Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_Y))),
-                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_ROTATION_ANGLE))) ,Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_SCALE))));
+                Entity entity = new Entity(
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(ENTITY_ID))),
+                        cursor.getString(cursor.getColumnIndex(ENTITY_CLASSIFICATION)),
+                        cursor.getString(cursor.getColumnIndex(ENTITY_NAME)),
+                        BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_X))),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_POSITION_Y))),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_ROTATION_ANGLE))),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_SCALE_X))),
+                        Float.valueOf(cursor.getString(cursor.getColumnIndex(ENTITY_SCALE_Y))));
 
                 // Adding entity to list
                entityList.add(entity);
@@ -386,7 +395,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                         entity_details.put(ENTITY_CLASSIFICATION, entity.getClassification());
                         entity_details.put(ENTITY_POSITION_X, entity.getPositionX());
                         entity_details.put(ENTITY_POSITION_Y, entity.getPositionY());
-                        entity_details.put(ENTITY_SCALE, entity.getScale());
+                        entity_details.put(ENTITY_SCALE_X, entity.getScaleX());
+                        entity_details.put(ENTITY_SCALE_Y, entity.getScaleY());
                         entity_details.put(ENTITY_ROTATION_ANGLE, entity.getRotationAngle());
                         entity_details.put(ENTITY_IMAGE, getBitmapAsByteArray(entity.getImage()));
                         entity_details.put(SCENE_ID, scene.getId());

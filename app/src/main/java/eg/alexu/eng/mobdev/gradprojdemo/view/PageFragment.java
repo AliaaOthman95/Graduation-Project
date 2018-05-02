@@ -74,6 +74,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
         ImageView image = new ImageView(this.getContext());
         image.setX(entity.getPositionX());
         image.setY(entity.getPositionY());
+        image.setRotation(entity.getRotationAngle());
+        image.setScaleX(entity.getScaleX());
+        image.setScaleY(entity.getScaleY());
         image.setImageBitmap(entity.getImage());
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200,200);
         image.setLayoutParams(layoutParams);

@@ -21,7 +21,8 @@ public class Entity implements Serializable {
     private float positionX ;
     private float positionY ;
     private float rotationAngle;
-    private float scale ;
+    private float scaleX ;
+    private float scaleY ;
 
 
     public Entity(Bitmap image){
@@ -29,7 +30,7 @@ public class Entity implements Serializable {
     }
 
 
-    public Entity(Integer id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scale) {
+    public Entity(Integer id , String classification, String name, Bitmap image, float positionX, float positionY, float rotationAngle, float scaleX ,float scaleY ) {
         this.id =id;
         this.classification = classification;
         this.name = name;
@@ -37,7 +38,9 @@ public class Entity implements Serializable {
         this.positionX = positionX;
         this.positionY = positionY;
         this.rotationAngle = rotationAngle;
-        this.scale = scale;
+        this.scaleX=scaleX;
+        this.scaleY=scaleY;
+
     }
 
     public void setId(Integer id) {
@@ -70,8 +73,12 @@ public class Entity implements Serializable {
         return rotationAngle;
     }
 
-    public float getScale() {
-        return scale;
+    public float getScaleX() {
+        return scaleX;
+    }
+
+    public float getScaleY() {
+        return scaleY;
     }
 
     public void setClassification(String classification) {
@@ -98,7 +105,11 @@ public class Entity implements Serializable {
         this.rotationAngle = rotationAngle;
     }
 
-    public void setScale(float scale) {
-        this.scale = scale;
+    public void setScaleY(float scaleY) {
+        this.scaleY = scaleY;
+    }
+
+    public void setScaleX(float scaleX) {
+        this.scaleX = scaleX;
     }
 }

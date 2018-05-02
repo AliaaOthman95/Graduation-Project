@@ -38,9 +38,9 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
       
-        //setupEngine();
-        stories=StoryFactory.createRandomStories();
-       // loadStories();
+        engine = Engine.getInstance();
+
+        loadStories();
 
         setupBookShelf();
       
@@ -51,7 +51,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Story  story = StoryFactory.createRandomStories(1).get(0);
+                Story  story = StoryFactory.createRandomStories().get(0);
                 stories.add(story);
                 setBookShelfContent(stories);
                 Log.d("storyIDbeforeSave","eih el kalam");
@@ -117,6 +117,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
                         Intent myintent = new Intent(getBaseContext(),PagerMainActivity.class);
+                        myintent.putExtra("story_index",index);
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
