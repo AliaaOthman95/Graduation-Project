@@ -38,9 +38,9 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
       
-        setupEngine();
-
-        loadStories();
+        //setupEngine();
+        stories=StoryFactory.createRandomStories();
+       // loadStories();
 
         setupBookShelf();
       
@@ -50,6 +50,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Story  story = StoryFactory.createRandomStories(1).get(0);
                 stories.add(story);
                 setBookShelfContent(stories);
@@ -57,7 +58,6 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 engine.saveStroies(story);
                 Log.d("storyIDAfterSave",engine.getLastStoryId()+" is the last id");
                 story.setStoryId(engine.getLastStoryId());
-
             }
         });
     }
@@ -116,7 +116,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     case R.id.story_menu_play:
                         Toast.makeText(getBaseContext(),"you played "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
-                        Intent myintent = new Intent(getBaseContext(),DisplayModeActivity.class);
+                        Intent myintent = new Intent(getBaseContext(),PagerMainActivity.class);
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:

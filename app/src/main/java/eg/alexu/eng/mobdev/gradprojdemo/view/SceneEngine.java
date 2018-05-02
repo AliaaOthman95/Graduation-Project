@@ -131,6 +131,7 @@ public class SceneEngine extends AppCompatActivity {
 
         // create scences and set them to adapter
         SceneAdapter adapter = new SceneAdapter(story.getScenes(),this);
+
         recyclerView.setAdapter(adapter);
     }
 

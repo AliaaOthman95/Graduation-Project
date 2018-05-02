@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.controller;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 
 import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
 
+
 public class SceneCreator extends AppCompatActivity {
 
     private float scalediff;
@@ -69,6 +71,7 @@ public class SceneCreator extends AppCompatActivity {
             entities = new ArrayList<Entity>();
         }
         loadEntity();
+
 
         addEntity = (ImageButton) findViewById(R.id.send);
         // entityName=(EditText) findViewById(R.id.text);

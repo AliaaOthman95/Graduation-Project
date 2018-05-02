@@ -33,7 +33,8 @@
             android:name=".view.DisplayModeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_display_mode"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".view.PagerMainActivity"></activity>
     </application>
 
 </manifest>

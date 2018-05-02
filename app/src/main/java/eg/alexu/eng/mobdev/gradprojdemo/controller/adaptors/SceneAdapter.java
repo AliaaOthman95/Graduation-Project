@@ -63,14 +63,11 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int pos) {
+              
+                Toast.makeText(context,"click",Toast.LENGTH_LONG).show();
 
-                //Toast.makeText(context,"click"+ scenesList.get(position).getname(),Toast.LENGTH_LONG).show();
-              //  Log.d("bbbbbbbb",scenesList.get(position).getname());
             }
         });
-
-
-
     }
 
     @Override
