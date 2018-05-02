@@ -113,12 +113,7 @@ public class SceneCreator extends AppCompatActivity {
 
 
     private void dialogPopUp() {
-
-        if(true){
-            createEntity("giraffe");
-            return ;
-        }
-
+        
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneCreator.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
 
