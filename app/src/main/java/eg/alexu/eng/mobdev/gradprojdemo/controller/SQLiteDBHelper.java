@@ -62,7 +62,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //Create scene Table Query
     private static final String SQL_CREATE_SCENE =
             "CREATE TABLE SCENE (" + SCENE_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " TEXT, " +STORY_ID + "  INTEGER, " +"FOREIGN KEY ( " + STORY_ID +" ) " +
+                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " BLOB, " +STORY_ID + "  INTEGER, " +"FOREIGN KEY ( " + STORY_ID +" ) " +
                     "REFERENCES "+ "STORY" + " ( " + STORY_ID + " ) );";
 
     //Create entity Table Query
@@ -134,7 +134,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
                 ContentValues scene_details = new ContentValues();
                 scene_details.put(SCENE_NARRATION, scene.getNarration());
-                scene_details.put(SCENE_COVER, scene.getCover());
+                scene_details.put(SCENE_COVER, getBitmapAsByteArray(scene.getCover()));
                 scene_details.put(STORY_ID, story.getStoryId());
                 db.insert(SCENE_TABLE, null, scene_details);
 
@@ -251,10 +251,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
-
             do {
+                byte[] imgByte = cursor.getBlob(cursor.getColumnIndex(SCENE_COVER));
                 Log.d("sceneList", "yaraaaaaaaaaaab");
-                Scene scene = new Scene(getAllEntities(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID)))),cursor.getString(cursor.getColumnIndex(SCENE_NARRATION)),Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID))),storyId,cursor.getString(cursor.getColumnIndex(SCENE_COVER)));
+                Scene scene = new Scene(
+                        getAllEntities(Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID)))),
+                        cursor.getString(cursor.getColumnIndex(SCENE_NARRATION)),
+                        Integer.parseInt(cursor.getString(cursor.getColumnIndex(SCENE_ID))),
+                        storyId,
+                        BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length));
 
                 // Adding scene to list
                 sceneList.add(scene);
@@ -382,7 +387,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
                 ContentValues scene_details = new ContentValues();
                 scene_details.put(SCENE_NARRATION, scene.getNarration());
-                scene_details.put(SCENE_COVER, scene.getCover());
+                scene_details.put(SCENE_COVER, getBitmapAsByteArray(scene.getCover()));
                 scene_details.put(STORY_ID, story.getStoryId());
                 if (scene.getId() != null && sceneExists(scene.getId())) {
                     db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",

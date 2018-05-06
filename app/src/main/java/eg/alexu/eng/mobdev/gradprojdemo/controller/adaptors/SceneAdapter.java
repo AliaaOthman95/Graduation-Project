@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -48,10 +49,8 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
        // holder.sceneName.setText(scenesList.get(position).getname());
         final Context context = holder.sceneCover.getContext();
 
-        String coverName = scenesList.get(position).getCover();
-        int coverId = context.getResources().getIdentifier(coverName,
-                "drawable", context.getPackageName());
-        holder.sceneCover.setImageResource(coverId);
+        Bitmap cover = scenesList.get(position).getCover();
+        holder.sceneCover.setImageBitmap(cover);
 
 
         holder.sceneCover.setOnClickListener(new View.OnClickListener() {

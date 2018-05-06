@@ -1,7 +1,12 @@
 package eg.alexu.eng.mobdev.gradprojdemo.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import java.io.Serializable;
 import java.util.List;
+
+import eg.alexu.eng.mobdev.gradprojdemo.view.MainActivity;
 
 /**
  * Created by Paula B. Bassily on 23/01/2018.
@@ -12,21 +17,31 @@ public class Scene implements Serializable {
     private String narration ;
     private Integer id ;
     private Integer storyId;
-    private String cover ;
+    private Bitmap cover ;
 
-    public Scene(List<Entity> entities, String narration, Integer id, Integer storyId, String cover) {
+    public Scene(List<Entity> entities, String narration, Integer id, Integer storyId, Bitmap cover) {
         this.entities = entities;
         this.narration = narration;
         this.id = id;
         this.storyId = storyId;
         this.cover = cover;
+
+        if(cover == null)
+            loadInitialCover();
     }
+
+    private void loadInitialCover() {
+        int coverId = MainActivity.appContext.getResources().getIdentifier("bacground2",
+                "drawable",MainActivity.appContext.getPackageName());
+        cover = BitmapFactory.decodeResource(MainActivity.appContext.getResources(), coverId);
+    }
+
     // private String name;
 
     public Scene (){
     }
 
-    public Scene (String cover){
+    public Scene (Bitmap cover){
         //this.name=name;
         this.cover=cover;
     }
@@ -63,11 +78,11 @@ public class Scene implements Serializable {
         this.storyId = storyId;
     }
 
-    public String getCover() {
+    public Bitmap getCover() {
         return cover;
     }
 
-    public void setCover(String cover) {
+    public void setCover(Bitmap cover) {
         this.cover = cover;
     }
 

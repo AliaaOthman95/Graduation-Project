@@ -44,7 +44,7 @@ public class SceneEngine extends AppCompatActivity {
         story_index = (int) getIntent().getSerializableExtra("Integer");
         story = Book_Shelf_Activity.stories.get(story_index);
 
-        setRecyclerView();
+//        setRecyclerView();
 
         // to make new scene
         ImageButton newScene= (ImageButton)findViewById(R.id.newScene);
@@ -77,6 +77,12 @@ public class SceneEngine extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setRecyclerView();
     }
 
     private Scene getNewScene() {

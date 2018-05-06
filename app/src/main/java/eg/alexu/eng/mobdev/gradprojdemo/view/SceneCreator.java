@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
@@ -50,7 +52,7 @@ public class SceneCreator extends AppCompatActivity {
     private float oldDist = 1f;
     private float d = 0f;
     private float newRot = 0f;
-    private ViewGroup rootLayout;
+    private ViewGroup rootLayout ;
     private ImageButton addEntity;
     private EditText entity_desception;
     private AlertDialog dialog;
@@ -73,8 +75,10 @@ public class SceneCreator extends AppCompatActivity {
         if(entities == null){
             entities = new ArrayList<Entity>();
         }
-        loadEntity();
 
+        rootLayout=(ViewGroup) findViewById(R.id.board_scene);
+
+        loadEntity();
 
         addEntity = (ImageButton) findViewById(R.id.send);
         // entityName=(EditText) findViewById(R.id.text);
@@ -110,6 +114,16 @@ public class SceneCreator extends AppCompatActivity {
 
 
     private void dialogPopUp() {
+
+        /*
+        if(true) {
+            Random random = new Random();
+            Boolean randomBool = random.nextBoolean();
+            String desc = randomBool?"elephant":"giraffe";
+            createEntity(desc);
+            return;
+        }
+        */
 
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneCreator.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
@@ -196,7 +210,6 @@ public class SceneCreator extends AppCompatActivity {
 
     private void showEntity(Entity entity){
         final Context context =getApplicationContext();
-        rootLayout=(ViewGroup) findViewById(R.id.board_scene);
         ImageView image = new ImageView(getApplicationContext());
         image.setImageBitmap(entity.getImage());
         image.setX(entity.getPositionX());
@@ -351,6 +364,18 @@ public class SceneCreator extends AppCompatActivity {
         }
 
 
+
+    }
+
+    @Override
+    protected void onPause() {
+        Toast.makeText(this,"da5aaal on pause",Toast.LENGTH_SHORT).show();
+        super.onPause();
+        View v1 = rootLayout;
+        v1.setDrawingCacheEnabled(true);
+        Bitmap sceneCoverbitmap = Bitmap.createBitmap(v1.getDrawingCache());
+        v1.setDrawingCacheEnabled(false);
+        scene.setCover(sceneCoverbitmap);
 
     }
 }
