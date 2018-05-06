@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
-import eg.alexu.eng.mobdev.gradprojdemo.view.DisplayModeActivity;
 import eg.alexu.eng.mobdev.gradprojdemo.view.MainActivity;
 
 /**

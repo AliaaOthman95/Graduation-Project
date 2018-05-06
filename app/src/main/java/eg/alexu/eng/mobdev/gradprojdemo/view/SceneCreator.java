@@ -1,12 +1,9 @@
-package eg.alexu.eng.mobdev.gradprojdemo.controller;
+package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,10 +32,10 @@ import java.util.Locale;
 import java.util.Map;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
+import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.EntityFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
-import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 
 import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
 
@@ -113,7 +110,7 @@ public class SceneCreator extends AppCompatActivity {
 
 
     private void dialogPopUp() {
-        
+
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneCreator.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
 

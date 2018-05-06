@@ -2,7 +2,6 @@ package eg.alexu.eng.mobdev.gradprojdemo.controller;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.model.*;

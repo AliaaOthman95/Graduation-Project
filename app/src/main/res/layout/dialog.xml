@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffe6ff"
-    tools:context="eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator">
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneCreator">
 
 
     <EditText

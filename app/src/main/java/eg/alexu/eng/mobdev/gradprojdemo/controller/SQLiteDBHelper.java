@@ -1,4 +1,4 @@
-package eg.alexu.eng.mobdev.gradprojdemo.model;
+package eg.alexu.eng.mobdev.gradprojdemo.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.io.ByteArrayOutputStream ;
 
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
+import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 import eg.alexu.eng.mobdev.gradprojdemo.view.MainActivity;
 
 public class SQLiteDBHelper extends SQLiteOpenHelper {

@@ -1,19 +1,13 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,13 +15,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
-import eg.alexu.eng.mobdev.gradprojdemo.controller.SceneCreator;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.SceneAdapter;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.SceneFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
