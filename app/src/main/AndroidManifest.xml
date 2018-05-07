@@ -20,20 +20,12 @@
             android:theme="@style/SplashTheme" />
         <activity
             android:name=".view.Book_Shelf_Activity"
-            android:label="@string/title_activity_book__shelf_"
-            android:theme="@style/AppTheme.NoActionBar" />
+            />
         <activity
-            android:name=".view.SceneCreator"
-            android:label="@string/title_Scene_Creator"
-            android:parentActivityName=".view.SceneEngine" />
+            android:name=".view.SceneCreator" />
         <activity
             android:name=".view.SceneEngine"
-            android:label="@string/title_Scene_Engine" />
-        <activity
-            android:name=".view.DisplayModeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_display_mode"
-            android:theme="@style/FullscreenTheme" />
+            />
         <activity android:name=".view.PagerMainActivity"></activity>
     </application>
 

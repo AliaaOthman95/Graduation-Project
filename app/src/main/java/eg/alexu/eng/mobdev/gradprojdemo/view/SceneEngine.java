@@ -103,12 +103,6 @@ public class SceneEngine extends AppCompatActivity {
             case R.id.save_story :
                 // save story
                 return true;
-            case R.id.search_scene:
-                // search
-                return true;
-            case R.id.delete_scene:
-                // delete
-                return true;
 
         }
         return super.onOptionsItemSelected(item);
@@ -145,4 +139,8 @@ public class SceneEngine extends AppCompatActivity {
         myintent.putExtra("Integer",position);
         startActivity(myintent);
     }
+
+
+
+
 }

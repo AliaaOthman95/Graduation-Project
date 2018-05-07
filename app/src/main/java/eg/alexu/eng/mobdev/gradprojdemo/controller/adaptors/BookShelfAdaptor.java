@@ -48,7 +48,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
 
             holder.storyName.setText(storyList.get(index).getStoryName());
 
-            holder.storyDate.setText(storyList.get(index).getCreationDate()+"");
+           // holder.storyDate.setText(storyList.get(index).getCreationDate()+"");
             final Context context = holder.storyCover.getContext();
             String coverName = storyList.get(index).getCover();
             int coverImageId = context.getResources().getIdentifier(coverName,
@@ -89,7 +89,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
 
             CardView cv;
             TextView storyName;
-            TextView storyDate;
+           // TextView storyDate;
             ImageView storyCover;
             ImageView popMenu;
             ItemClickListener itemClickListener;
@@ -99,7 +99,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
                 super(itemView);
                 cv = (CardView)itemView.findViewById(R.id.cv);
                 storyName = (TextView)itemView.findViewById(R.id.story_name);
-                storyDate = (TextView)itemView.findViewById(R.id.story_date);
+                //storyDate = (TextView)itemView.findViewById(R.id.story_date);
                 storyCover = (ImageView)itemView.findViewById(R.id.story_cover);
                 popMenu = (ImageView) itemView.findViewById(R.id.story_pop_menu);
                 itemView.setOnClickListener(this);
