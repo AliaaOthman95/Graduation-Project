@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -26,6 +28,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -192,13 +199,57 @@ public class SceneCreator extends AppCompatActivity {
 
     private void  createEntity(String descreption){
         int imageID = getResources().getIdentifier(descreption,"drawable", getPackageName());
+       // getImageFromURL(descreption);
+        new DownloadImageFromInternet().execute("http://35.185.28.128:5000/"+descreption);
         Entity entity = EntityFactory.createNewEntity(descreption);
+
         showEntity(entity);
         entities.add(entity);
         scene.setEntities(entities);
         engine.saveStroies(SceneEngine.story);
         entity.setId(engine.getLastEntityId());
     }
+   /* private void getImageFromURL (String description){
+        try {
+            URL url = new URL("http://35.185.28.128:5000/"+description);
+            Log.d("url",url.toString());
+            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            if(image != null) Log.d("entity","hereeee");
+            EntityFactory.SetBitmap(image);
+        } catch(IOException e) {
+            System.out.println(e);
+        }
+
+
+    }*/
+    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
+
+
+        public DownloadImageFromInternet() {
+
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String imageURL = urls[0];
+            Log.d("url",imageURL);
+            Bitmap bimage = null;
+            try {
+                InputStream in = new java.net.URL(imageURL).openStream();
+                bimage = BitmapFactory.decodeStream(in);
+                if(bimage != null) Log.d("entity","hereeee");
+                EntityFactory.SetBitmap(bimage);
+            } catch (Exception e) {
+                Log.e("Error Message", e.getMessage());
+                e.printStackTrace();
+            }
+            return bimage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            EntityFactory.SetBitmap(result);
+        }
+    }
+
 
     private void loadEntity() {
         if(entities != null ){

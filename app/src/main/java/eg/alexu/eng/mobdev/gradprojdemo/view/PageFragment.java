@@ -29,7 +29,9 @@ public class PageFragment extends android.support.v4.app.Fragment {
     public PageFragment(Story story) {
         this.story = story ;
     }
+    public PageFragment() {
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

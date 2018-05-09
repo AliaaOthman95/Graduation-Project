@@ -36,5 +36,5 @@
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".view.PagerMainActivity"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>
