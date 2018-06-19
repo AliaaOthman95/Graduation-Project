@@ -31,6 +31,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
@@ -199,9 +201,21 @@ public class SceneCreator extends AppCompatActivity {
 
     private void  createEntity(String descreption){
         int imageID = getResources().getIdentifier(descreption,"drawable", getPackageName());
-       // getImageFromURL(descreption);
-        new DownloadImageFromInternet().execute("http://35.185.28.128:5000/"+descreption);
-        Entity entity = EntityFactory.createNewEntity(descreption);
+        SendHttpRequestTask task = new SendHttpRequestTask();
+        Bitmap result = null;
+        Entity entity = null;
+        try {
+            descreption = descreption.replaceAll(" ","%20");
+            Log.d("get image",descreption);
+            result = task.execute("http://35.229.126.53:5000/"+descreption).get();
+            //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
+            Log.d("get image","wasal ya m3alam");
+            entity = new Entity(null , null,descreption, result, (float)0,(float) 0 , (float)0 , (float)1,(float)1);
+
+        }
+        catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
         showEntity(entity);
         entities.add(entity);
@@ -209,47 +223,25 @@ public class SceneCreator extends AppCompatActivity {
         engine.saveStroies(SceneEngine.story);
         entity.setId(engine.getLastEntityId());
     }
-   /* private void getImageFromURL (String description){
-        try {
-            URL url = new URL("http://35.185.28.128:5000/"+description);
-            Log.d("url",url.toString());
-            Bitmap image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            if(image != null) Log.d("entity","hereeee");
-            EntityFactory.SetBitmap(image);
-        } catch(IOException e) {
-            System.out.println(e);
-        }
-
-
-    }*/
-    private class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
-
-
-        public DownloadImageFromInternet() {
-
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String imageURL = urls[0];
-            Log.d("url",imageURL);
-            Bitmap bimage = null;
+    private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
             try {
-                InputStream in = new java.net.URL(imageURL).openStream();
-                bimage = BitmapFactory.decodeStream(in);
-                if(bimage != null) Log.d("entity","hereeee");
-                EntityFactory.SetBitmap(bimage);
-            } catch (Exception e) {
-                Log.e("Error Message", e.getMessage());
-                e.printStackTrace();
+                URL url = new URL(params[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                EntityFactory.SetBitmap(myBitmap);
+                return myBitmap;
+            }catch (Exception e){
+                Log.d("imageError",e.getMessage());
             }
-            return bimage;
+            return null;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            EntityFactory.SetBitmap(result);
-        }
     }
-
 
     private void loadEntity() {
         if(entities != null ){
