@@ -1,6 +1,7 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -25,15 +26,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +46,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.EntityFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
-
+import eg.alexu.eng.mobdev.gradprojdemo.view.SceneCreator;
 import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
 
 
@@ -70,7 +69,7 @@ public class SceneCreator extends AppCompatActivity {
     private int sceneIndex ;
     private Engine engine;
     private Map<ImageView,Entity> imageEntityMap ;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,8 +146,13 @@ public class SceneCreator extends AppCompatActivity {
             public void onClick(View v) {
                 // get entity from server
                 if(!entity_desception.getText().toString().isEmpty()){
-                    createEntity(entity_desception.getText().toString().toLowerCase());
                     dialog.dismiss();
+                    /*View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
+                    progressBar = (ProgressBar) findViewById(R.id.progressbar);
+                    progressBar.setVisibility(mview.VISIBLE);*/
+                    createEntity(entity_desception.getText().toString().toLowerCase());
+                   // progressBar.setVisibility(mview.INVISIBLE);
+
                 }
             }
 
@@ -210,6 +214,7 @@ public class SceneCreator extends AppCompatActivity {
             result = task.execute("http://35.229.126.53:5000/"+descreption).get();
             //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
             Log.d("get image","wasal ya m3alam");
+
             entity = new Entity(null , null,descreption, result, (float)0,(float) 0 , (float)0 , (float)1,(float)1);
 
         }
@@ -224,7 +229,18 @@ public class SceneCreator extends AppCompatActivity {
         entity.setId(engine.getLastEntityId());
     }
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
+
+       //ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Showing progress dialog
+           /* this.progressDialog.setMessage("Please wait...");
+            this.progressDialog.setCancelable(false);
+            this.progressDialog.show();*/
+
+        }
+            @Override
         protected Bitmap doInBackground(String... params) {
             try {
                 URL url = new URL(params[0]);
@@ -233,13 +249,26 @@ public class SceneCreator extends AppCompatActivity {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                EntityFactory.SetBitmap(myBitmap);
+                Thread.sleep(5000);
                 return myBitmap;
             }catch (Exception e){
                 Log.d("imageError",e.getMessage());
+
             }
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            // Dismiss the progress dialog
+           /* if (progressDialog.isShowing())
+                progressDialog.dismiss();*/
+           /* View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
+            progressBar = (ProgressBar) findViewById(R.id.progressbar);
+            progressBar.setVisibility(mview.INVISIBLE);*/
+        }
+
 
     }
 
@@ -252,7 +281,7 @@ public class SceneCreator extends AppCompatActivity {
     }
 
     private void showEntity(Entity entity){
-        final Context context =getApplicationContext();
+
         ImageView image = new ImageView(getApplicationContext());
         image.setImageBitmap(entity.getImage());
         image.setX(entity.getPositionX());
