@@ -21,7 +21,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.MainActivity;
  */
 public class EntityFactory {
     private static Activity activityInst = MainActivity.appCompatActivity;
-
+    private static Bitmap bitMap;
     public static List<Entity> createEntites (){
         List entities = new ArrayList<Entity>();
         Entity entity  ;
@@ -36,11 +36,15 @@ public class EntityFactory {
     }
 
     private static Bitmap getBitMap(String desc){
-        int imageID = activityInst.getResources().getIdentifier(desc,
+        /*int imageID = activityInst.getResources().getIdentifier(desc,
                 "drawable",activityInst.getPackageName());
         ImageView image = new ImageView(activityInst.getApplicationContext());
-        Bitmap bitmap = BitmapFactory.decodeResource(activityInst.getResources(), imageID);
-        return bitmap ;
+        Bitmap bitmap = BitmapFactory.decodeResource(activityInst.getResources(), imageID);*/
+        return  bitMap ;
+    }
+    public static void SetBitmap(Bitmap map){
+
+        bitMap = map;
     }
 
     public static Entity createNewEntity (String desc){
