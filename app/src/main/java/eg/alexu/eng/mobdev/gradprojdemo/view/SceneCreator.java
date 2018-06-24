@@ -15,6 +15,7 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,9 +30,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,11 +79,15 @@ public class SceneCreator extends AppCompatActivity {
     private Engine engine;
     private Map<ImageView,Entity> imageEntityMap ;
     private ProgressBar progressBar;
+    private static String result = null;
+    private Integer responseCode = null;
+    private String responseMessage = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
         sceneIndex = (int) getIntent().getSerializableExtra("Integer");
         scene = story.getScenes().get(sceneIndex);
         entities =  scene.getEntities();
@@ -204,29 +217,197 @@ public class SceneCreator extends AppCompatActivity {
     }
 
     private void  createEntity(String descreption){
-        int imageID = getResources().getIdentifier(descreption,"drawable", getPackageName());
-        SendHttpRequestTask task = new SendHttpRequestTask();
-        Bitmap result = null;
         Entity entity = null;
-        try {
-            descreption = descreption.replaceAll(" ","%20");
-            Log.d("get image",descreption);
-            result = task.execute("http://35.229.126.53:5000/"+descreption).get();
-            //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
-            Log.d("get image","wasal ya m3alam");
+        Bitmap result = null;
+        if(!descreption.toLowerCase().contains("owl") ){
+            try {
+               result = searchGoogle(descreption);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-            entity = new Entity(null , null,descreption, result, (float)0,(float) 0 , (float)0 , (float)1,(float)1);
+        }else {
+            SendHttpRequestTask task = new SendHttpRequestTask();
 
+            try {
+                descreption = descreption.replaceAll(" ", "%20");
+                Log.d("get image", descreption);
+                result = task.execute("http://35.229.126.53:5000/"+descreption).get();
+                //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
         }
-        catch (InterruptedException | ExecutionException e) {
+        if(result != null){
+            entity = new Entity(null, null, descreption, result, (float) 0, (float) 0, (float) 0, (float) 1, (float) 1);
+            showEntity(entity);
+            entities.add(entity);
+            scene.setEntities(entities);
+            engine.saveStroies(SceneEngine.story);
+            entity.setId(engine.getLastEntityId());
+        }
+
+    }
+
+    private Bitmap searchGoogle(String descreption) throws ExecutionException, InterruptedException {
+        try {
+        descreption = descreption.replace(" ", "+");
+        String key="AIzaSyDpOpFRPzOvzd8qu84NyVZ7fO_uosvHCGE";
+        String cx = "006571456533153282207:1cf5kafdhxm";
+        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"with+transparent+background" +"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
+        URL url = null;
+        url = new URL(urlString);
+        Log.d("Google", "Url = "+  urlString);
+        // start AsyncTask
+        GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
+        return parseResponse(searchTask.execute(url).get());
+        } catch (MalformedURLException e) {
+            Log.e("error", "ERROR converting String to URL " + e.toString());
+        }
+        return null;
+    }
+
+    private Bitmap parseResponse(String JsonResponse) {
+        try {
+            JSONObject response = new JSONObject(result);
+            JSONArray array = response.getJSONArray("items");
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject imageobject = array.getJSONObject(i);
+                String image_url = imageobject.getString("link");
+                Log.d("image",image_url);
+                AsyncTaskLoadImage task  = new AsyncTaskLoadImage();
+                try {
+                    return task.execute(image_url).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (JSONException e) {
             e.printStackTrace();
         }
+        return  null;
+    }
 
-        showEntity(entity);
-        entities.add(entity);
-        scene.setEntities(entities);
-        engine.saveStroies(SceneEngine.story);
-        entity.setId(engine.getLastEntityId());
+    private class GoogleSearchAsyncTask extends AsyncTask<URL, Integer, String> {
+
+        private String TAG = "GoogleTask";
+
+        protected void onPreExecute() {
+            Log.d(TAG, "AsyncTask - onPreExecute");
+            // show progressbar
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+
+        @Override
+        protected String doInBackground(URL... urls) {
+
+            URL url = urls[0];
+            Log.d(TAG, "AsyncTask - doInBackground, url=" + url);
+
+            // Http connection
+            HttpURLConnection conn = null;
+            try {
+                conn = (HttpURLConnection) url.openConnection();
+            } catch (IOException e) {
+                Log.e(TAG, "Http connection ERROR " + e.toString());
+            }
+
+
+            try {
+                responseCode = conn.getResponseCode();
+                responseMessage = conn.getResponseMessage();
+            } catch (IOException e) {
+                Log.e(TAG, "Http getting response code ERROR " + e.toString());
+            }
+
+            Log.d(TAG, "Http response code =" + responseCode + " message=" + responseMessage);
+
+            try {
+
+                if (responseCode == 200) {
+
+                    // response OK
+
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+
+                    while ((line = rd.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    rd.close();
+
+                    conn.disconnect();
+
+                    result = sb.toString();
+
+                    Log.d(TAG, "result=" + result);
+
+                    return result;
+
+                } else {
+
+                    // response problem
+
+                    String errorMsg = "Http ERROR response " + responseMessage + "\n" + "Make sure to replace in code your own Google API key and Search Engine ID";
+                    Log.e(TAG, errorMsg);
+                    result = errorMsg;
+                    return result;
+
+                }
+            } catch (IOException e) {
+                Log.e(TAG, "Http Response ERROR " + e.toString());
+            }
+
+
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            Log.d(TAG, "AsyncTask - onProgressUpdate, progress=" + progress);
+
+        }
+
+        protected void onPostExecute(String result) {
+            Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
+            // hide progressbar
+            progressBar.setVisibility(View.GONE);
+
+        }
+    }
+    private class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+        private String TAG = "AsyncTaskLoadImage";
+        protected void onPreExecute() {
+            Log.d(TAG, "AsyncTask - onPreExecute");
+            // show progressbar
+            progressBar.setVisibility(View.VISIBLE);
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream) url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+        protected void onPostExecute(String result) {
+
+            Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
+            // hide progressbar
+            progressBar.setVisibility(View.GONE);
+
+        }
+
+
     }
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
 
