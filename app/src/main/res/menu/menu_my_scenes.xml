@@ -8,6 +8,7 @@
     <item
         android:id="@+id/save_story"
         android:icon="@drawable/ic_done_black_24dp"
+
         android:title="@string/save_story_text"
         app:showAsAction="always"/>
 
