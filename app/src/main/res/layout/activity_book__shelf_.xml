@@ -16,7 +16,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="190dp"
-            android:background="@drawable/think_image"
+            android:background="@drawable/shelf"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="#FFF272"
+        app:backgroundTint="#3F6C7F"
         android:src="@android:drawable/btn_star" />
 
 </android.support.design.widget.CoordinatorLayout>

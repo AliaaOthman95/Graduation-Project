@@ -21,7 +21,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="190dp"
-            android:background="@drawable/my_scenes"
+            android:background="@drawable/openbook"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -37,7 +38,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="13dp"
         android:layout_marginEnd="14dp"
-        app:backgroundTint="#FFF272"
+        app:backgroundTint="@color/colorPrimary"
         android:src="@android:drawable/btn_star"/>
 
 </android.support.design.widget.CoordinatorLayout>
