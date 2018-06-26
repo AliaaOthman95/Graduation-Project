@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
-    tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine">
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

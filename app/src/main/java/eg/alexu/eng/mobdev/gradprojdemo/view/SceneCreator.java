@@ -3,7 +3,6 @@ package eg.alexu.eng.mobdev.gradprojdemo.view;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,7 +14,6 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,16 +45,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
-import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.EntityFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
-import eg.alexu.eng.mobdev.gradprojdemo.view.SceneCreator;
-import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine.story;
+import static eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity.story;
 
 
 public class SceneCreator extends AppCompatActivity {
@@ -160,11 +155,16 @@ public class SceneCreator extends AppCompatActivity {
                 // get entity from server
                 if(!entity_desception.getText().toString().isEmpty()){
                     dialog.dismiss();
-                    /*View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
-                    progressBar = (ProgressBar) findViewById(R.id.progressbar);
-                    progressBar.setVisibility(mview.VISIBLE);*/
+                    //View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
+                    //progressBar = (ProgressBar) findViewById(R.id.progressbar);
+                    //progressBar.setVisibility(View.VISIBLE);
+                    ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     createEntity(entity_desception.getText().toString().toLowerCase());
-                   // progressBar.setVisibility(mview.INVISIBLE);
+
+                    //progressBar.setVisibility(View.INVISIBLE);
 
                 }
             }
@@ -246,7 +246,7 @@ public class SceneCreator extends AppCompatActivity {
             showEntity(entity);
             entities.add(entity);
             scene.setEntities(entities);
-            engine.saveStroies(SceneEngine.story);
+            engine.saveStroies(SceneActivity.story);
             entity.setId(engine.getLastEntityId());
         }
 
@@ -300,7 +300,7 @@ public class SceneCreator extends AppCompatActivity {
         protected void onPreExecute() {
             Log.d(TAG, "AsyncTask - onPreExecute");
             // show progressbar
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
         }
 
 
@@ -377,7 +377,8 @@ public class SceneCreator extends AppCompatActivity {
         protected void onPostExecute(String result) {
             Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
             // hide progressbar
-            progressBar.setVisibility(View.GONE);
+           // progressBar.setVisibility(View.GONE);
+
 
         }
     }
@@ -386,7 +387,7 @@ public class SceneCreator extends AppCompatActivity {
         protected void onPreExecute() {
             Log.d(TAG, "AsyncTask - onPreExecute");
             // show progressbar
-            progressBar.setVisibility(View.VISIBLE);
+           // progressBar.setVisibility(View.VISIBLE);
         }
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -403,7 +404,8 @@ public class SceneCreator extends AppCompatActivity {
 
             Log.d(TAG, "AsyncTask - onPostExecute, result=" + result);
             // hide progressbar
-            progressBar.setVisibility(View.GONE);
+          //  progressBar.setVisibility(View.GONE);
+
 
         }
 

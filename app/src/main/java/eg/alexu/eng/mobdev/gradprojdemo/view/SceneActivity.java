@@ -25,7 +25,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.SceneFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 
-public class SceneEngine extends AppCompatActivity {
+public class SceneActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     public static Story story;
