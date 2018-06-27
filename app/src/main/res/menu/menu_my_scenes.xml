@@ -3,21 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item
-        android:id="@+id/delete_scene"
-        android:icon="@drawable/ic_delete_black_24dp"
-        android:title="@string/delete_scene_text"
-        app:showAsAction="always"/>
 
-    <item
-        android:id="@+id/search_scene"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/search_scene_text"
-        app:showAsAction="always"/>
 
     <item
         android:id="@+id/save_story"
         android:icon="@drawable/ic_done_black_24dp"
+
         android:title="@string/save_story_text"
         app:showAsAction="always"/>
 

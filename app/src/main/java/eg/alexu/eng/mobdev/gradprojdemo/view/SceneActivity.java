@@ -1,8 +1,11 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,12 +14,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
@@ -31,6 +38,8 @@ public class SceneActivity extends AppCompatActivity {
     public static Story story;
     private int story_index ;
     private Engine engine;
+
+    private AlertDialog dialog;
     SceneFactory sceneFactory ;
 
     @SuppressLint("WrongViewCast")
@@ -63,10 +72,8 @@ public class SceneActivity extends AppCompatActivity {
                 Scene scene = getNewScene() ;
                 scenes.add(scene);
                 story.setScenes(scenes);
-
                 engine.saveStroies(story);
                 scene.setId(engine.getLastSceneId());
-
                 updateScenesListView();
 
                 // update Bookshelf stories
@@ -101,17 +108,67 @@ public class SceneActivity extends AppCompatActivity {
         switch (item.getItemId()){
 
             case R.id.save_story :
+                dialogPopUp();
                 // save story
                 return true;
-            case R.id.search_scene:
-                // search
-                return true;
-            case R.id.delete_scene:
-                // delete
-                return true;
+            
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void dialogPopUp() {
+
+
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneActivity.this);
+        View mview = getLayoutInflater().inflate(R.layout.dialog,null);
+
+        // fileds of dialog
+        final EditText story_name = (EditText) mview.findViewById(R.id.text);
+        Button ok_button =(Button) mview.findViewById(R.id.ok);
+
+
+        ok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get entity from server
+                if(!story_name.getText().toString().isEmpty()){
+                   String name_of_story = story_name.getText().toString();
+                    story.setStoryName(name_of_story);
+                    dialog.dismiss();
+                }
+            }
+
+        });
+
+        ImageButton speech =(ImageButton) mview.findViewById(R.id.speech);
+        speech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+                try{
+                    startActivityForResult(intent,200);
+                }catch (ActivityNotFoundException a){
+                    Toast.makeText(getApplicationContext(),"Speech Intent problem",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button cancel = (Button) mview.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        mbuilder.setView(mview);
+        dialog = mbuilder.create();
+        dialog.show();
+        return;
     }
 
     private void setRecyclerView(){
@@ -145,4 +202,5 @@ public class SceneActivity extends AppCompatActivity {
         myintent.putExtra("Integer",position);
         startActivity(myintent);
     }
+
 }

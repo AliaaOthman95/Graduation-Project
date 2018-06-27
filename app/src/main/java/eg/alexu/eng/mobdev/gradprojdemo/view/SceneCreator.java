@@ -96,9 +96,9 @@ public class SceneCreator extends AppCompatActivity {
 
         loadEntity();
 
-        addEntity = (ImageButton) findViewById(R.id.send);
+       // addEntity = (ImageButton) findViewById(R.id.send);
         // entityName=(EditText) findViewById(R.id.text);
-        addEntity.setOnClickListener(new View.OnClickListener() {
+        /*addEntity.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.O)
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -106,7 +106,7 @@ public class SceneCreator extends AppCompatActivity {
 
                 dialogPopUp();
             }
-        });
+        });*/
     }
 
 
@@ -121,7 +121,7 @@ public class SceneCreator extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.save_story:
-
+                dialogPopUp();
                 return true;
 
         }

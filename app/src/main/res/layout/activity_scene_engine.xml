@@ -4,21 +4,26 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity">
 
+    <!--
+   android:background="#2FBFB5"
+    -->
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        app:contentScrim="?attr/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:background="@drawable/openbook"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -33,6 +38,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="13dp"
         android:layout_marginEnd="14dp"
+        app:backgroundTint="@color/colorPrimary"
         android:src="@android:drawable/btn_star"/>
 
 </android.support.design.widget.CoordinatorLayout>

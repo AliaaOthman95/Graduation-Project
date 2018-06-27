@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -33,8 +34,8 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book__shelf_);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
       
         engine = Engine.getInstance();
 
@@ -82,8 +83,11 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
         bookShelfRV = (RecyclerView)findViewById(R.id.book_shelf_rv);
         bookShelfRV.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        bookShelfRV.setLayoutManager(llm);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(),2);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        gridLayoutManager.scrollToPosition(2);
+        //LinearLayoutManager llm = new LinearLayoutManager(this);
+        bookShelfRV.setLayoutManager(gridLayoutManager);
 
     }
 

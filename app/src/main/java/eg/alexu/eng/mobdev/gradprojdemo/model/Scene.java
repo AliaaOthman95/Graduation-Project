@@ -31,7 +31,7 @@ public class Scene implements Serializable {
     }
 
     private void loadInitialCover() {
-        int coverId = MainActivity.appContext.getResources().getIdentifier("bacground2",
+        int coverId = MainActivity.appContext.getResources().getIdentifier("scene_pic_1",
                 "drawable",MainActivity.appContext.getPackageName());
         cover = BitmapFactory.decodeResource(MainActivity.appContext.getResources(), coverId);
     }
