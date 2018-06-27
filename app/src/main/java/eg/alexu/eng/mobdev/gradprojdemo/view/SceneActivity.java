@@ -31,7 +31,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.controller.factories.SceneFactory;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Story;
 
-public class SceneEngine extends AppCompatActivity {
+public class SceneActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     public static Story story;
@@ -117,7 +117,7 @@ public class SceneEngine extends AppCompatActivity {
     private void dialogPopUp() {
 
 
-        AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneEngine.this);
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(SceneActivity.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
 
         // fileds of dialog
