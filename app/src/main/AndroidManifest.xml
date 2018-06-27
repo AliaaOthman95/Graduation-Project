@@ -25,9 +25,9 @@
         <activity
             android:name=".view.SceneCreator"
             android:label="@string/title_Scene_Creator"
-            android:parentActivityName=".view.SceneEngine" />
+            android:parentActivityName=".view.SceneActivity" />
         <activity
-            android:name=".view.SceneEngine"
+            android:name=".view.SceneActivity"
             android:label="@string/title_Scene_Engine" />
         <activity
             android:name=".view.DisplayModeActivity"

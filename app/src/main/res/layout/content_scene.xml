@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine"
+    tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity"
     tools:showIn="@layout/activity_scene_engine" >
 
 

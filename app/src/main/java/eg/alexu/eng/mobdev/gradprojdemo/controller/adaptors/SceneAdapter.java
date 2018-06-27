@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,8 +16,7 @@ import java.util.List;
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.listener.ItemClickListener;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Scene;
-import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
-import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
+import eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity;
 
 /**
  * Created by shereen on 2/6/2018.
@@ -29,9 +25,9 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.SceneEngine;
 public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolder>{
 
     List<Scene> scenesList ;
-    private SceneEngine sceneEngineInstance;
+    private SceneActivity sceneEngineInstance;
 
-    public SceneAdapter (List<Scene> scenesList , SceneEngine sceneEngineInstance){
+    public SceneAdapter (List<Scene> scenesList , SceneActivity sceneEngineInstance){
         this.scenesList=scenesList;
         this.sceneEngineInstance = sceneEngineInstance ;
     }
