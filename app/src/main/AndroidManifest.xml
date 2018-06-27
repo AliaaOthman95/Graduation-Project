@@ -22,11 +22,18 @@
             android:name=".view.Book_Shelf_Activity"
             />
         <activity
-            android:name=".view.SceneCreator" />
+            android:name=".view.SceneCreator"
+            android:label="@string/title_Scene_Creator"
+            android:parentActivityName=".view.SceneActivity" />
         <activity
-            android:name=".view.SceneEngine"
-            />
+            android:name=".view.SceneActivity"
+            android:label="@string/title_Scene_Engine" />
+        <activity
+            android:name=".view.DisplayModeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_display_mode"
+            android:theme="@style/FullscreenTheme" />
         <activity android:name=".view.PagerMainActivity"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 </manifest>

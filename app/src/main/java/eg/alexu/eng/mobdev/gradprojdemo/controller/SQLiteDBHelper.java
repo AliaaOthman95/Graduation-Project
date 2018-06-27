@@ -56,23 +56,23 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     //Create story Table Query
     private static final String SQL_CREATE_STORY =
             "CREATE TABLE STORY (" + STORY_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + STORY_NAME + " TEXT, " + STORY_COVER + "  TEXT, "
+                    + STORY_NAME + " TEXT, " + STORY_COVER + "  TEXT NOT NULL, "
                     + STORY_COVER_COLOR + "  TEXT, " + STORY_DATE + "  DATE NOT NULL);";
 
     //Create scene Table Query
     private static final String SQL_CREATE_SCENE =
             "CREATE TABLE SCENE (" + SCENE_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " BLOB, " +STORY_ID + "  INTEGER, " +"FOREIGN KEY ( " + STORY_ID +" ) " +
+                    + SCENE_NARRATION + " TEXT, "+ SCENE_COVER +  " BLOB NOT NULL, " +STORY_ID + "  INTEGER, " +"FOREIGN KEY ( " + STORY_ID +" ) " +
                     "REFERENCES "+ "STORY" + " ( " + STORY_ID + " ) );";
 
     //Create entity Table Query
     private static final String SQL_CREATE_ENTITY =
             "CREATE TABLE ENTITY (" + ENTITY_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + ENTITY_NAME+ " TEXT, "+ ENTITY_CLASSIFICATION + " TEXT, "
-                    + ENTITY_POSITION_X+ " REAL, " + ENTITY_POSITION_Y+ " REAL, "
-                    + ENTITY_ROTATION_ANGLE+ " REAL, " + ENTITY_SCALE_X+ " REAL, "
-                    + ENTITY_SCALE_Y+ " REAL, "
-                    + ENTITY_IMAGE + " BLOB , "
+                    + ENTITY_NAME+ " TEXT NOT NULL, "+ ENTITY_CLASSIFICATION + " TEXT, "
+                    + ENTITY_POSITION_X+ " REAL NOT NULL, " + ENTITY_POSITION_Y+ " REAL NOT NULL, "
+                    + ENTITY_ROTATION_ANGLE+ " REAL NOT NULL, " + ENTITY_SCALE_X+ " REAL NOT NULL, "
+                    + ENTITY_SCALE_Y+ " REAL NOT NULL, "
+                    + ENTITY_IMAGE + " BLOB NOT NULL, "
                     +  SCENE_ID + " INTEGER , "
                     + "FOREIGN KEY (" + SCENE_ID +") "
                     +"REFERENCES "+ SCENE_TABLE + "(" + SCENE_ID + ") );";

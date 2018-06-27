@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.adaptors.SceneAdapter;
@@ -37,6 +38,7 @@ public class SceneActivity extends AppCompatActivity {
     public static Story story;
     private int story_index ;
     private Engine engine;
+
     private AlertDialog dialog;
     SceneFactory sceneFactory ;
 
@@ -72,7 +74,6 @@ public class SceneActivity extends AppCompatActivity {
                 story.setScenes(scenes);
                 engine.saveStroies(story);
                 scene.setId(engine.getLastSceneId());
-
                 updateScenesListView();
 
                 // update Bookshelf stories
@@ -108,11 +109,14 @@ public class SceneActivity extends AppCompatActivity {
 
             case R.id.save_story :
                 dialogPopUp();
+                // save story
                 return true;
+            
 
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void dialogPopUp() {
 
@@ -167,7 +171,6 @@ public class SceneActivity extends AppCompatActivity {
         return;
     }
 
-
     private void setRecyclerView(){
         recyclerView = (RecyclerView)findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -199,8 +202,5 @@ public class SceneActivity extends AppCompatActivity {
         myintent.putExtra("Integer",position);
         startActivity(myintent);
     }
-
-
-
 
 }
