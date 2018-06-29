@@ -1,8 +1,11 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import eg.alexu.eng.mobdev.gradprojdemo.R;
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
@@ -27,7 +35,10 @@ public class Book_Shelf_Activity extends AppCompatActivity {
 
     private RecyclerView bookShelfRV ;
     public static List<Story> stories ;
+    private AlertDialog dialog;
+    private  String name_of_story ;
     private Engine engine;
+    private Story story;
 
 
     @Override
@@ -49,14 +60,16 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                 dialogPopUp();
+                 Log.d("***********************","****************");
+                  story = StoryFactory.createRandomStories().get(0);
+                 stories.add(story);
+                 setBookShelfContent(stories);
+                 Log.d("storyIDbeforeSave", "eih el kalam");
+                 engine.saveStroies(story);
+                 Log.d("storyIDAfterSave", engine.getLastStoryId() + " is the last id");
+                 story.setStoryId(engine.getLastStoryId());
 
-                Story  story = StoryFactory.createRandomStories().get(0);
-                stories.add(story);
-                setBookShelfContent(stories);
-                Log.d("storyIDbeforeSave","eih el kalam");
-                engine.saveStroies(story);
-                Log.d("storyIDAfterSave",engine.getLastStoryId()+" is the last id");
-                story.setStoryId(engine.getLastStoryId());
             }
         });
     }
@@ -66,6 +79,64 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         if(stories==null)
             stories = new ArrayList<Story>();
         Log.d("loaded stories",stories.size()+"");
+    }
+
+    private void dialogPopUp() {
+
+
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(Book_Shelf_Activity.this);
+        View mview = getLayoutInflater().inflate(R.layout.dialog,null);
+
+        // fileds of dialog
+        final EditText story_name = (EditText) mview.findViewById(R.id.text);
+        final TextView  text = (TextView) mview.findViewById(R.id.textView);
+        text.setText("Enter name of your story");
+        Button ok_button =(Button) mview.findViewById(R.id.ok);
+
+
+        ok_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // get entity from server
+                if(!story_name.getText().toString().isEmpty()) {
+                    name_of_story = story_name.getText().toString();
+                    story.setStoryName(name_of_story);
+                    Log.d("//////////////////////",name_of_story);
+                    dialog.dismiss();
+                }else {
+                    story_name.setError("Please enter name of your story");
+                }
+            }
+
+        });
+
+        ImageButton speech =(ImageButton) mview.findViewById(R.id.speech);
+        speech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+                try{
+                    startActivityForResult(intent,200);
+                }catch (ActivityNotFoundException a){
+                    Toast.makeText(getApplicationContext(),"Speech Intent problem",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button cancel = (Button) mview.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        mbuilder.setView(mview);
+        dialog = mbuilder.create();
+        dialog.show();
+        return;
     }
 
     private void setupEngine() {

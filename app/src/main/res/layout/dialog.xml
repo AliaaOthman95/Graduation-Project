@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="5"
+    android:weightSum="5.25"
     tools:context="eg.alexu.eng.mobdev.gradprojdemo.view.SceneCreator">
 
 <!--
@@ -27,9 +27,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:background="@drawable/edit_text_border"
+        android:weightSum="3"
         android:layout_weight="4">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Descripe your animal" />
 
         <EditText
             android:id="@+id/text"
@@ -37,7 +51,7 @@
             android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_margin="10dp"
-
+            android:layout_weight="2"
             android:inputType="textCapSentences|textAutoCorrect" />
 
 

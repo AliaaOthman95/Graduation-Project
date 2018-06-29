@@ -25,8 +25,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -82,7 +84,7 @@ public class SceneCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+       // progressBar = (ProgressBar) findViewById(R.id.progressbar);
         sceneIndex = (int) getIntent().getSerializableExtra("Integer");
         scene = story.getScenes().get(sceneIndex);
         entities =  scene.getEntities();
@@ -146,6 +148,8 @@ public class SceneCreator extends AppCompatActivity {
 
         // fileds of dialog
         entity_desception=(EditText) mview.findViewById(R.id.text);
+        final TextView text = (TextView) mview.findViewById(R.id.textView);
+        text.setText("Descripe your animal");
         Button ok_button =(Button) mview.findViewById(R.id.ok);
 
 
@@ -158,14 +162,16 @@ public class SceneCreator extends AppCompatActivity {
                     //View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
                     //progressBar = (ProgressBar) findViewById(R.id.progressbar);
                     //progressBar.setVisibility(View.VISIBLE);
-                    ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
+                    /*ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
                     progressDialog.setMessage("Please wait...");
                     progressDialog.setCancelable(false);
-                    progressDialog.show();
+                    progressDialog.show();*/
                     createEntity(entity_desception.getText().toString().toLowerCase());
 
                     //progressBar.setVisibility(View.INVISIBLE);
 
+                }else {
+                    entity_desception.setError("Please your description");
                 }
             }
 
@@ -491,7 +497,7 @@ public class SceneCreator extends AppCompatActivity {
 
     // darg and zoom and rotate
     public class newChoiceTouchListener implements View.OnTouchListener {
-        RelativeLayout.LayoutParams parms;
+        LinearLayout.LayoutParams parms;
         int startwidth;
         int startheight;
         float dx = 0, dy = 0, x = 0, y = 0;
@@ -510,7 +516,7 @@ public class SceneCreator extends AppCompatActivity {
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
 
-                    parms = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                    parms = (LinearLayout.LayoutParams) view.getLayoutParams();
                     startwidth = parms.width;
                     startheight = parms.height;
                     dx = event.getRawX() - parms.leftMargin;
@@ -631,6 +637,5 @@ public class SceneCreator extends AppCompatActivity {
         Bitmap sceneCoverbitmap = Bitmap.createBitmap(v1.getDrawingCache());
         v1.setDrawingCacheEnabled(false);
         scene.setCover(sceneCoverbitmap);
-
     }
 }
