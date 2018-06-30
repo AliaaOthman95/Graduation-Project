@@ -31,7 +31,7 @@ public class SceneActivity extends AppCompatActivity {
     public static Story story;
     private int story_index ;
     private Engine engine;
-    SceneFactory sceneFactory ;
+    private SceneFactory sceneFactory ;
 
     @SuppressLint("WrongViewCast")
     @Override

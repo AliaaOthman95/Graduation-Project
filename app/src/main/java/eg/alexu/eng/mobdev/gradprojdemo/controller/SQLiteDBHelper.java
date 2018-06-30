@@ -90,8 +90,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("StoryDB", "onCreate: "+SQL_CREATE_STORY );
-        Log.d("SceneDB", "onCreate: "+SQL_CREATE_SCENE );
         db.execSQL(FOREIGN);
         db.execSQL(SQL_CREATE_STORY);
         db.execSQL(SQL_CREATE_SCENE);
@@ -163,6 +161,40 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     }
 
     //Retrieves details all stories
+    public int getLastStoryId() {
+
+        ArrayList <Story> storyList = new ArrayList<Story>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + STORY_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
+    //Retrieves details of last scene
+    public int getLastSceneId() {
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + SCENE_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
+    //Retrieves details of last added entity
+    public int getLastEntityId() {
+
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + ENTITY_TABLE;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return cursor.getCount();
+
+    }
+    //Retrieves details all stories
     public ArrayList<Story> getAllStories() {
 
         ArrayList <Story> storyList = new ArrayList<Story>();
@@ -177,23 +209,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
             do {
 
-                //story.setStoryId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))));
-                //story.setStoryName(cursor.getString(cursor.getColumnIndex(STORY_NAME)));
-                //Log.d("dbName ", "name----*"+cursor.getString(cursor.getColumnIndex(STORY_NAME)));
-                //story.setCover(cursor.getString(cursor.getColumnIndex(STORY_COVER)));
-                //story.setCoverColor(cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)));
-
                 Date date1= null;
                 try {
                     date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(cursor.getColumnIndex(STORY_DATE)));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-               // story.setCreationDate(date1);
                 Story story = new Story(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))),cursor.getString(cursor.getColumnIndex(STORY_NAME)),
                         cursor.getString(cursor.getColumnIndex(STORY_COVER)), cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)),date1,getAllScenes(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID)))));
-                //TODO uncomment tis line when creating the  SCENE_TABLE
-
 
 
                 // Adding story to list
@@ -205,40 +228,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return storyList;
 
     }
-    //Retrieves details all stories
-    public int getLastStoryId() {
 
-        ArrayList <Story> storyList = new ArrayList<Story>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + STORY_TABLE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
-
-    }
-    //Retrieves details all stories
-    public int getLastSceneId() {
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + SCENE_TABLE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
-
-    }
-    //Retrieves details all stories
-    public int getLastEntityId() {
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + ENTITY_TABLE;
-
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
-
-    }
     //Retrieves details all scenes
     public ArrayList<Scene> getAllScenes(int storyId) {
 
@@ -335,6 +325,24 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     }
 
+    // retrieve story by name
+    public boolean getStoryByName(String name) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(STORY_TABLE, new String[] { STORY_ID,
+                        STORY_NAME, STORY_COVER, STORY_COVER_COLOR, STORY_DATE }, STORY_NAME + "=?",
+                new String[] { name }, null, null, null, null);
+        Story story = null;
+
+        if (cursor != null && cursor.getCount() > 0) {
+           return  true;
+        }
+
+        return false;
+
+    }
+    // check if a scene exists
     public boolean sceneExists(Integer sceneId) {
 
         if(sceneId == null) return false;

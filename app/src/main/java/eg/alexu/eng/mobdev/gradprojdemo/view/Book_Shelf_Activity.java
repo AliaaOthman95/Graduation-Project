@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -56,6 +57,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 engine.saveStroies(story);
                 Log.d("storyIDAfterSave",engine.getLastStoryId()+" is the last id");
                 story.setStoryId(engine.getLastStoryId());
+                ((LinearLayoutManager)bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size()-1,0);
             }
         });
     }

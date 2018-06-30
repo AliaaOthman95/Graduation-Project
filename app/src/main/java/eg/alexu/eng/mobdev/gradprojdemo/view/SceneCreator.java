@@ -158,10 +158,10 @@ public class SceneCreator extends AppCompatActivity {
                     //View mview = getLayoutInflater().inflate(R.layout.activity_scene_creator,null);
                     //progressBar = (ProgressBar) findViewById(R.id.progressbar);
                     //progressBar.setVisibility(View.VISIBLE);
-                    ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                   // ProgressDialog progressDialog = new ProgressDialog(SceneCreator.this);//getApplicationContext()
+                    //progressDialog.setMessage("Please wait...");
+                    //progressDialog.setCancelable(false);
+                    //progressDialog.show();
                     createEntity(entity_desception.getText().toString().toLowerCase());
 
                     //progressBar.setVisibility(View.INVISIBLE);
@@ -216,7 +216,7 @@ public class SceneCreator extends AppCompatActivity {
         }
     }
 
-    private void  createEntity(String descreption){
+    private void createEntity(String descreption){
         Entity entity = null;
         Bitmap result = null;
         if(!descreption.toLowerCase().contains("owl") ){
