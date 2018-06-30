@@ -116,7 +116,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.d("Story Name" , story.getStoryName());
+        //Log.d("Story Name" , story.getStoryName());
         //Create a map having movie details to be inserted
         ContentValues story_details = new ContentValues();
         story_details.put(STORY_NAME, story.getStoryName());

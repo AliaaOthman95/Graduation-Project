@@ -63,13 +63,11 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                  dialogPopUp();
                  Log.d("***********************","****************");
                  story = StoryFactory.createRandomStories().get(0);
-                 stories.add(story);
-                 setBookShelfContent(stories);
                  Log.d("storyIDbeforeSave", "eih el kalam");
                  engine.saveStroies(story);
                  Log.d("storyIDAfterSave", engine.getLastStoryId() + " is the last id");
                  story.setStoryId(engine.getLastStoryId());
-                ((LinearLayoutManager)bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size()-1,0);
+
 
             }
         });
@@ -83,7 +81,6 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
     private void dialogPopUp() {
-
 
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(Book_Shelf_Activity.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
@@ -105,8 +102,14 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         Log.d("******************","//////////////////////");
                         story_name.setError("Please enter another name");
                     }else {
-                        story.setStoryName(name_of_story);
-                        Log.d("//////////////////////", name_of_story);
+                        //if(found) {
+                            story = StoryFactory.createRandomStories().get(0);
+                            story.setStoryName(name_of_story);
+                            stories.add(story);
+                            setBookShelfContent(stories);
+                            ((LinearLayoutManager) bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size() - 1, 0);
+                           // Log.d("//////////////////////", name_of_story);
+
                         dialog.dismiss();
                     }
                 }else {
@@ -152,6 +155,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     return true;
                 }
             }
+
         }
         return false;
     }
@@ -211,16 +215,18 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
+                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStoryName()
+                                ,Toast.LENGTH_LONG).show();
                         engine.deleteStory(index);
                         // update view *************************************************
                         stories.remove(index);
                         setBookShelfContent(stories);
-                        Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStoryName()
-                                ,Toast.LENGTH_LONG).show();
                         break;
-                    case R.id.story_menu_other:
+                    case R.id.story_menu_rename:
                         Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
+
+
                         break;
                 }
                 return false;

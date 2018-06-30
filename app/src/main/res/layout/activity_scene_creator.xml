@@ -46,9 +46,11 @@
         android:orientation="horizontal"
        >
         <EditText
-            android:id="@+id/text"
+            android:id="@+id/narration_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:hint="wriye your story here"
+            android:text="  "
             android:layout_margin="10dp"
             android:inputType="textCapSentences|textAutoCorrect" />
 

@@ -1,5 +1,6 @@
 package eg.alexu.eng.mobdev.gradprojdemo.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -69,6 +70,7 @@ public class SceneCreator extends AppCompatActivity {
     private ViewGroup rootLayout ;
     private ImageButton addEntity;
     private EditText entity_desception;
+    private EditText narration_text ;
     private AlertDialog dialog;
     private List<Entity> entities ;
     private Scene scene;
@@ -85,6 +87,7 @@ public class SceneCreator extends AppCompatActivity {
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
        // progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        narration_text = (EditText) findViewById(R.id.narration_text);
         sceneIndex = (int) getIntent().getSerializableExtra("Integer");
         scene = story.getScenes().get(sceneIndex);
         entities =  scene.getEntities();
@@ -97,6 +100,9 @@ public class SceneCreator extends AppCompatActivity {
         rootLayout=(ViewGroup) findViewById(R.id.board_scene);
 
         loadEntity();
+        if(!narration_text.getText().toString().isEmpty()){
+            narration_text.setText(scene.getNarration());
+        }
 
        // addEntity = (ImageButton) findViewById(R.id.send);
         // entityName=(EditText) findViewById(R.id.text);
@@ -110,6 +116,8 @@ public class SceneCreator extends AppCompatActivity {
             }
         });*/
     }
+
+
 
 
 
@@ -637,5 +645,10 @@ public class SceneCreator extends AppCompatActivity {
         Bitmap sceneCoverbitmap = Bitmap.createBitmap(v1.getDrawingCache());
         v1.setDrawingCacheEnabled(false);
         scene.setCover(sceneCoverbitmap);
+        if(narration_text.getText().toString().isEmpty()){
+            scene.setNarration(" ");
+        }else {
+            scene.setNarration(narration_text.getText().toString());
+        }
     }
 }
