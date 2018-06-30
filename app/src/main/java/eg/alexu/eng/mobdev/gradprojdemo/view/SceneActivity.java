@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class SceneActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     public static Story story;
+    private List<Scene> scenes;
     private int story_index ;
     private Engine engine;
 
@@ -67,7 +69,7 @@ public class SceneActivity extends AppCompatActivity {
 //                startActivity(myintent);
 
 
-                List<Scene> scenes  = story.getScenes();
+                scenes  = story.getScenes();
                 if(scenes == null) scenes = new ArrayList<Scene>();
                 Scene scene = getNewScene() ;
                 scenes.add(scene);
@@ -96,24 +98,33 @@ public class SceneActivity extends AppCompatActivity {
         return SceneFactory.createBlackScene();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_my_scenes,menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
 
-            case R.id.save_story :
-                // save story
-                return true;
-            
+    public void onOptionsClick(final int index , View view) {
 
-        }
-        return super.onOptionsItemSelected(item);
+        //creating a popup menu
+        PopupMenu popup = new PopupMenu(this, view);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.menu_my_scenes);
+        //adding click listener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.story_menu_del:
+                        engine.deleteScene(index);
+                        // update view *************************************************
+                        scenes.remove(index);
+                        updateScenesListView();
+                        Toast.makeText(getBaseContext(),"you deleted the scene"+scenes.get(index)
+                                ,Toast.LENGTH_LONG).show();
+                }
+                return false;
+            }
+        });
+        //displaying the popup
+        popup.show();
     }
 
 

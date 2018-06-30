@@ -60,5 +60,18 @@ public class Engine {
 
     }
 
+    public  boolean getStoryByName(String name) {
+        return db.getStoryByName(name);
+    }
+    public void  deleteStory(int storyId){
+        db.deleteStory(storyId);
+    }
+    public void  deleteScene(int sceneId){
+        db.deleteScene(sceneId);
+    }
+    public void  deleteEntity(int entityId){
+        db.deleteEntity(entityId);
+    }
+
 
 }

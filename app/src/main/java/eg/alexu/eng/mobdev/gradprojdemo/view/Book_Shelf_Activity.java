@@ -62,13 +62,14 @@ public class Book_Shelf_Activity extends AppCompatActivity {
             public void onClick(View view) {
                  dialogPopUp();
                  Log.d("***********************","****************");
-                  story = StoryFactory.createRandomStories().get(0);
+                 story = StoryFactory.createRandomStories().get(0);
                  stories.add(story);
                  setBookShelfContent(stories);
                  Log.d("storyIDbeforeSave", "eih el kalam");
                  engine.saveStroies(story);
                  Log.d("storyIDAfterSave", engine.getLastStoryId() + " is the last id");
                  story.setStoryId(engine.getLastStoryId());
+                ((LinearLayoutManager)bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size()-1,0);
 
             }
         });
@@ -100,9 +101,14 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 // get entity from server
                 if(!story_name.getText().toString().isEmpty()) {
                     name_of_story = story_name.getText().toString();
-                    story.setStoryName(name_of_story);
-                    Log.d("//////////////////////",name_of_story);
-                    dialog.dismiss();
+                    if(engine.getStoryByName(name_of_story)){
+                        Log.d("******************","//////////////////////");
+                        story_name.setError("Please enter another name");
+                    }else {
+                        story.setStoryName(name_of_story);
+                        Log.d("//////////////////////", name_of_story);
+                        dialog.dismiss();
+                    }
                 }else {
                     story_name.setError("Please enter name of your story");
                 }
@@ -137,6 +143,17 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         dialog = mbuilder.create();
         dialog.show();
         return;
+    }
+
+    private boolean findStorybyName(String name){
+        for(Story s :stories){
+            if(s !=null) {
+                if (name.toLowerCase().equals(s.getStoryName().toLowerCase())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void setupEngine() {
@@ -194,6 +211,10 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
+                        engine.deleteStory(index);
+                        // update view *************************************************
+                        stories.remove(index);
+                        setBookShelfContent(stories);
                         Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
                         break;

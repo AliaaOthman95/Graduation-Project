@@ -25,6 +25,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.SceneActivity;
 public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolder>{
 
     List<Scene> scenesList ;
+
     private SceneActivity sceneEngineInstance;
 
     public SceneAdapter (List<Scene> scenesList , SceneActivity sceneEngineInstance){
@@ -63,6 +64,12 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
 
             }
         });
+        holder.popMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sceneEngineInstance.onOptionsClick(position, holder.popMenu);
+            }
+        });
     }
 
     @Override
@@ -75,12 +82,14 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
             CardView cardView;
             TextView sceneName;
             ImageView sceneCover;
+            ImageView popMenu;
             ItemClickListener itemClickListener;
 
         public MySceneHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.card_view);
             //sceneName = (TextView) itemView.findViewById(R.id.sceneName);
+            popMenu = (ImageView) itemView.findViewById(R.id.menu);
             sceneCover =(ImageView) itemView.findViewById(R.id.sceneCover);
             itemView.setOnClickListener(this);
         }
