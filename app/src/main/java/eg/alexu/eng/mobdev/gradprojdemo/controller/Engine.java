@@ -35,26 +35,26 @@ public class Engine {
 
     public void saveStroies(Story story){
 
-        if(db.getStory(story.getStoryId()) != null){
-            Log.d("updateStory" , "hiiiiiiiiiiii");
+        if(story.getStoryId() != null){
+            Log.d("story info" , "story "+story.getStoryName()+" will be updated");
             db.updateStory(story);
         }else{
-            Log.d("addStory" , "byeeeeeeeeeee");
+            Log.d("story info" , "story "+story.getStoryName()+" will be added to DB");
             db.addStory(story);
         }
 
     }
-    public int getLastStoryId(){
+    public Integer getLastStoryId(){
 
-       return db.getLastStoryId();
+        return db.getLastStoryId();
 
     }
-    public int getLastSceneId(){
+    public Integer getLastSceneId(){
 
         return db.getLastSceneId();
 
     }
-    public int getLastEntityId(){
+    public Integer getLastEntityId(){
 
         return db.getLastEntityId();
 
@@ -63,13 +63,15 @@ public class Engine {
     public  boolean getStoryByName(String name) {
         return db.getStoryByName(name);
     }
-    public void  deleteStory(int storyId){
-        db.deleteStory(storyId);
+    public void  deleteStory(String storyName){
+        Log.d("story info" , "story "+storyName+" will be deleted from db");
+        db.deleteStory(storyName);
     }
-    public void  deleteScene(int sceneId){
-        db.deleteScene(sceneId);
+    public void  deleteScene(Integer id ,Integer sceneId){
+        Log.d("scene info" , "scene "+sceneId+" will be updated");
+        db.deleteScene(id,sceneId);
     }
-    public void  deleteEntity(int entityId){
+    public void  deleteEntity(Integer entityId){
         db.deleteEntity(entityId);
     }
 

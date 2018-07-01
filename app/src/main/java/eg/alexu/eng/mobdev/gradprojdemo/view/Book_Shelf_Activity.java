@@ -11,7 +11,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.util.Log;
 import android.view.View;
@@ -48,45 +47,47 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_book__shelf_);
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
-      
+
         engine = Engine.getInstance();
 
         loadStories();
 
         setupBookShelf();
-      
+
         setBookShelfContent(stories);
+
+
+        logStories();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // dialogPopUp();
-                story = StoryFactory.createRandomStories().get(0);
-                //story.setStoryName(name_of_story);
-                stories.add(story);
-                setBookShelfContent(stories);
-                engine.saveStroies(story);
-                story.setStoryId(engine.getLastStoryId());
-                 Log.d("***********************","****************");
-                 Log.d("storyIDbeforeSave", "eih el kalam");
-
-                 Log.d("storyIDAfterSave", engine.getLastStoryId() + " is the last id");
-
-
+                dialogPopUp();
+                logStories();
 
             }
         });
     }
 
+    private void logStories() {
+
+        for (Story story : stories) {
+            Log.d("story info",story.getStoryName()+" "+story.getStoryId());
+        }
+    }
+
     private void loadStories() {
         stories = engine.loadStroies();
-        if(stories==null)
+        if(stories == null)
             stories = new ArrayList<Story>();
-        Log.d("loaded stories",stories.size()+"");
+        Log.d("stories number",stories.size()+"");
     }
 
     private void dialogPopUp() {
+
+        name_of_story = new String() ;
 
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(Book_Shelf_Activity.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog,null);
@@ -101,28 +102,27 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // get entity from server
+
+                // get entity from server+
                 if(!story_name.getText().toString().isEmpty()) {
                     name_of_story = story_name.getText().toString();
-                    if(engine.getStoryByName(name_of_story)){
-                        Log.d("******************","//////////////////////");
+                    if(findStorybyName(name_of_story)){
                         story_name.setError("Please enter another name");
                     }else {
-                        //if(found) {
-                            story = StoryFactory.createRandomStories().get(0);
-                            //story.setStoryName(name_of_story);
-                            stories.add(story);
-                            setBookShelfContent(stories);
-                            engine.saveStroies(story);
-                            story.setStoryId(engine.getLastStoryId());
-                            ((LinearLayoutManager) bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size() - 1, 0);
-                           // Log.d("//////////////////////", name_of_story);
-
+                        story = StoryFactory.createStory(name_of_story);
+                        Log.d("story info" , "story "+story.getStoryName()+" will be created ");
+                        stories.add(story);
+                        setBookShelfContent(stories);
+                        engine.saveStroies(story);
+                        story.setStoryId(engine.getLastStoryId());
+                        ((LinearLayoutManager)bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size()-1,0);
                         dialog.dismiss();
                     }
                 }else {
                     story_name.setError("Please enter name of your story");
                 }
+
+
             }
 
         });
@@ -163,7 +163,6 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     return true;
                 }
             }
-
         }
         return false;
     }
@@ -192,12 +191,12 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
 
-
-
-    public  void onClickBook(int index,ImageView bookCover) {
+    public  void onClickBook(int index, ImageView bookCover) {
 
         Toast.makeText(this,"you clicked on "+stories.get(index).getStoryName(),Toast.LENGTH_LONG)
                 .show();
+
+
         //stories.get(index);
         Intent myintent = new Intent(this,SceneActivity.class);
         myintent.putExtra("Integer",index);
@@ -223,18 +222,18 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         startActivity(myintent);
                         break;
                     case R.id.story_menu_del:
+
+                        // update view *************************************************
                         Toast.makeText(getBaseContext(),"you deleted "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
-                        engine.deleteStory(index);
-                        // update view *************************************************
+                        engine.deleteStory(stories.get(index).getStoryName());
                         stories.remove(index);
                         setBookShelfContent(stories);
+                        logStories();
                         break;
                     case R.id.story_menu_rename:
                         Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
-
-
                         break;
                 }
                 return false;
@@ -244,22 +243,13 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         popup.show();
     }
 
-  /*  @Override
-    public void onDestroy() {
-        Toast.makeText(getBaseContext(),"da5aaaaaaaaal "
-                ,Toast.LENGTH_LONG).show();
-        for(Story story : stories)
-            engine.saveStroies(story);
-        super.onDestroy();
-
-    }*/
     @Override
-    public void onStop() {
-        Toast.makeText(getBaseContext(),"da5aaaaaaaaal stop"
-                ,Toast.LENGTH_LONG).show();
+    public void onPause() {
+        super.onPause();
+        Log.d("story info","bookshelf paused");
         for(Story story : stories)
             engine.saveStroies(story);
-        super.onStop();
-
     }
+
+
 }

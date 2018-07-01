@@ -29,4 +29,12 @@ public class StoryFactory {
         return stories;
 
     }
+
+    public static Story createStory(String name_of_story) {
+        Story story;
+        Random random = new Random();
+        String coverImagePath = "sample_cover_" + random.nextInt(6);
+        story = new Story(name_of_story, new Date(), coverImagePath);
+        return story;
+    }
 }

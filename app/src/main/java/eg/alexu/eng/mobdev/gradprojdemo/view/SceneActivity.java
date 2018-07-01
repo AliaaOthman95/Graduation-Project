@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,7 +56,12 @@ public class SceneActivity extends AppCompatActivity {
         story_index = (int) getIntent().getSerializableExtra("Integer");
         story = Book_Shelf_Activity.stories.get(story_index);
 
+        scenes  = story.getScenes();
+        if(scenes == null) scenes = new ArrayList<Scene>();
+
 //        setRecyclerView();
+
+        logScenes();
 
         // to make new scene
         ImageButton newScene= (ImageButton)findViewById(R.id.newScene);
@@ -69,11 +75,14 @@ public class SceneActivity extends AppCompatActivity {
 //                startActivity(myintent);
 
 
-                scenes  = story.getScenes();
-                if(scenes == null) scenes = new ArrayList<Scene>();
+
+
+                Log.d("scene info","new scene will be created");
                 Scene scene = getNewScene() ;
+
                 scenes.add(scene);
                 story.setScenes(scenes);
+
                 engine.saveStroies(story);
                 scene.setId(engine.getLastSceneId());
                 updateScenesListView();
@@ -113,12 +122,13 @@ public class SceneActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.story_menu_del:
-                        engine.deleteScene(index);
+                        Toast.makeText(getBaseContext(),"you deleted the scene"+scenes.get(index)
+                                ,Toast.LENGTH_LONG).show();
+                        engine.deleteScene(story.getStoryId(),index);
                         // update view *************************************************
                         scenes.remove(index);
                         updateScenesListView();
-                        Toast.makeText(getBaseContext(),"you deleted the scene"+scenes.get(index)
-                                ,Toast.LENGTH_LONG).show();
+
                 }
                 return false;
             }
@@ -154,7 +164,7 @@ public class SceneActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public void onOptionsClick(int position, ImageView sceneCover) {
+    public void onSceneClick(int position, ImageView sceneCover) {
 
         Toast.makeText(this,"fataaa7 ya ged3an", Toast.LENGTH_SHORT).show();
         Intent myintent = new Intent(this,SceneCreator.class);
@@ -162,4 +172,18 @@ public class SceneActivity extends AppCompatActivity {
         startActivity(myintent);
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("scene info","sceneActivity paused");
+        //engine.saveStroies(story);
+    }
+
+    private void logScenes() {
+
+        for (Scene scene : scenes) {
+            Log.d("scene info",scene.getId()+"");
+        }
+    }
 }

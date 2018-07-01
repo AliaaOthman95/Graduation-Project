@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.io.ByteArrayOutputStream ;
+import java.util.List;
 
 import eg.alexu.eng.mobdev.gradprojdemo.controller.Engine;
 import eg.alexu.eng.mobdev.gradprojdemo.model.Entity;
@@ -116,7 +117,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         // Gets the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
-        //Log.d("Story Name" , story.getStoryName());
+        Log.d("Story Name" , story.getStoryName());
         //Create a map having movie details to be inserted
         ContentValues story_details = new ContentValues();
         story_details.put(STORY_NAME, story.getStoryName());
@@ -161,7 +162,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     }
 
     //Retrieves details all stories
-    public int getLastStoryId() {
+    public Integer getLastStoryId() {
 
         ArrayList <Story> storyList = new ArrayList<Story>();
         // Select All Query
@@ -169,29 +170,36 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
+
+        cursor.moveToLast();
+        return cursor.getInt(cursor.getColumnIndex(STORY_ID));
 
     }
     //Retrieves details of last scene
-    public int getLastSceneId() {
+    public Integer getLastSceneId() {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + SCENE_TABLE;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
+
+        cursor.moveToLast();
+        return cursor.getInt(cursor.getColumnIndex(SCENE_ID));
+
 
     }
     //Retrieves details of last added entity
-    public int getLastEntityId() {
+    public Integer getLastEntityId() {
 
         // Select All Query
         String selectQuery = "SELECT  * FROM " + ENTITY_TABLE;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        return cursor.getCount();
+
+        cursor.moveToLast();
+        return cursor.getInt(cursor.getColumnIndex(ENTITY_ID));
 
     }
     //Retrieves details all stories
@@ -312,10 +320,9 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.getCount() > 0) {
             cursor.moveToFirst();
             try {
-
-                story = new Story(Integer.parseInt(cursor.getString(0)),
-                        cursor.getString(1), cursor.getString(2), cursor.getString(3),
-                        new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(4)),getAllScenes(cursor.getColumnIndex(STORY_ID)));
+                Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(cursor.getString(cursor.getColumnIndex(STORY_DATE)));
+                story = new Story(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID))),cursor.getString(cursor.getColumnIndex(STORY_NAME)),
+                        cursor.getString(cursor.getColumnIndex(STORY_COVER)), cursor.getString(cursor.getColumnIndex(STORY_COVER_COLOR)),date1,getAllScenes(Integer.parseInt(cursor.getString(cursor.getColumnIndex(STORY_ID)))));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -327,6 +334,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
 
     // retrieve story by name
     public boolean getStoryByName(String name) {
+        name = name.toLowerCase().trim();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -336,10 +344,31 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         Story story = null;
 
         if (cursor != null && cursor.getCount() > 0) {
-            return  true;
+            cursor.moveToFirst();
+            String storyNameDB = cursor.getString(cursor.getColumnIndex(STORY_NAME));
+            if(storyNameDB.toLowerCase().trim().equals(name))
+                return  true;
         }
 
         return false;
+
+    }
+
+    public Integer getIdByName(String name) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(STORY_TABLE, new String[] { STORY_ID,
+                        STORY_NAME, STORY_COVER, STORY_COVER_COLOR, STORY_DATE }, STORY_NAME + "=?",
+                new String[] { name }, null, null, null, null);
+        Story story = null;
+
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            return cursor.getInt(cursor.getColumnIndex(STORY_ID));
+        }
+
+        return -1;
 
     }
     // check if a scene exists
@@ -398,9 +427,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 scene_details.put(SCENE_COVER, getBitmapAsByteArray(scene.getCover()));
                 scene_details.put(STORY_ID, story.getStoryId());
                 if (scene.getId() != null && sceneExists(scene.getId())) {
+                    Log.d("scene info","scene "+ scene.getId()+" will be updated in DB");
                     db.update(SCENE_TABLE, scene_details, SCENE_ID + " = ?",
                             new String[]{String.valueOf(scene.getId())});
                 } else {
+                    Log.d("scene info","scene will be created in DB");
                     db.insert(SCENE_TABLE, null, scene_details);
                 }
                 if (scene.getEntities() != null) {
@@ -418,9 +449,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                         entity_details.put(SCENE_ID, scene.getId());
 
                         if (entity.getId() != null && entityExists(entity.getId())) {
+                            Log.d("entity info","entity "+ scene.getId()+" will be updated in DB");
                             db.update(ENTITY_TABLE, entity_details, ENTITY_ID + " = ?",
                                     new String[]{String.valueOf(entity.getId())});
                         } else {
+                            Log.d("entity info","entity will be created in DB");
                             db.insert(ENTITY_TABLE, null, entity_details);
                         }
                     }
@@ -431,9 +464,10 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
     }
 
     //Deletes the specified story
-    public void deleteStory(int storyId) {
+    public void deleteStory(String storyName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<Scene> scenes = getAllScenes(storyId);
+        Integer id = getIdByName(storyName);
+        ArrayList<Scene> scenes = getAllScenes(id);
         for(Scene scene : scenes){
 
             ArrayList<Entity> entities = getAllEntities(scene.getId());
@@ -443,25 +477,40 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
             deleteScene(scene.getId());
         }
 
-        db.delete(STORY_TABLE, STORY_ID + " = ?",
-                new String[] { String.valueOf(storyId) });
-        db.close();
+       /* db.delete(STORY_TABLE, STORY_ID + "=?",
+                new String[] { String.valueOf(storyId) });*/
+        db.execSQL("DELETE FROM " +STORY_TABLE+ " WHERE "+STORY_ID+"='"+id+"'");
+        Log.d("delete",storyName+"");
+
     }
     //Deletes the specified scene
-    public void deleteScene(int sceneId){
+    public void deleteScene(Integer storyId,Integer sceneIndex){
+
+        List<Scene> scenes = getAllScenes(storyId);
+        Integer deleteID = scenes.get(sceneIndex).getId();
+        SQLiteDatabase db = this.getWritableDatabase();
+       /* db.delete(SCENE_TABLE, SCENE_ID + "=?",
+                new String[] { String.valueOf(sceneId) });*/
+        db.execSQL("DELETE FROM " +SCENE_TABLE+ " WHERE "+SCENE_ID+"='"+deleteID+"'");
+
+    }
+    //Deletes the specified scene
+    public void deleteScene(Integer sceneId){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(SCENE_TABLE, SCENE_ID + " = ?",
-                new String[] { String.valueOf(sceneId) });
-        db.close();
+       /* db.delete(SCENE_TABLE, SCENE_ID + "=?",
+                new String[] { String.valueOf(sceneId) });*/
+        db.execSQL("DELETE FROM " +SCENE_TABLE+ " WHERE "+SCENE_ID+"='"+sceneId+"'");
+
     }
     //Deletes the specified entity
-    public void deleteEntity(int entityId){
+    public void deleteEntity(Integer entityId){
 
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(ENTITY_TABLE, ENTITY_ID + " = ?",
-                new String[] { String.valueOf(entityId) });
-        db.close();
+       /* db.delete(ENTITY_TABLE, ENTITY_ID + "=?",
+                new String[] { String.valueOf(entityId) });*/
+        db.execSQL("DELETE FROM " +ENTITY_TABLE+ " WHERE "+ENTITY_ID+"='"+entityId+"'");
+
     }
 
     //change bitmap into byte array

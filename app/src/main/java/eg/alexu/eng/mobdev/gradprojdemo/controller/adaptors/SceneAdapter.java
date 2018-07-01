@@ -53,7 +53,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.MySceneHolde
         holder.sceneCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sceneEngineInstance.onOptionsClick(position, holder.sceneCover);
+                sceneEngineInstance.onSceneClick(position, holder.sceneCover);
             }
         });
         holder.setItemClickListener(new ItemClickListener() {

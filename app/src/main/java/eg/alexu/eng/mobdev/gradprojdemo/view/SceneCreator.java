@@ -248,7 +248,7 @@ public class SceneCreator extends AppCompatActivity {
             try {
                 descreption = descreption.replaceAll(" ", "%20");
                 Log.d("get image", descreption);
-                result = task.execute("http://35.229.126.53:5000/"+descreption).get();
+                result = task.execute("http://35.237.169.164:5000/"+descreption).get();
                 //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
 
             } catch (InterruptedException | ExecutionException e) {
@@ -271,7 +271,7 @@ public class SceneCreator extends AppCompatActivity {
         descreption = descreption.replace(" ", "+");
         String key="AIzaSyDpOpFRPzOvzd8qu84NyVZ7fO_uosvHCGE";
         String cx = "006571456533153282207:1cf5kafdhxm";
-        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"with+transparent+background" +"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
+        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"cartoon+png" +"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
         URL url = null;
         url = new URL(urlString);
         Log.d("Google", "Url = "+  urlString);
@@ -486,26 +486,21 @@ public class SceneCreator extends AppCompatActivity {
         image.setRotation(entity.getRotationAngle());
         image.setScaleX(entity.getScaleX());
         image.setScaleY(entity.getScaleY());
-
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(200, 200);
         image.setLayoutParams(layoutParams);
-
         image.setOnTouchListener(new newChoiceTouchListener());
         rootLayout.addView(image);
-
         // keep mapping between image view and its
         // corresponding entity object
         // to relate the action listeners on the image view to entities
-
         imageEntityMap.put(image,entity);
-
     }
 
 
 
     // darg and zoom and rotate
     public class newChoiceTouchListener implements View.OnTouchListener {
-        LinearLayout.LayoutParams parms;
+        RelativeLayout.LayoutParams parms;
         int startwidth;
         int startheight;
         float dx = 0, dy = 0, x = 0, y = 0;
@@ -524,7 +519,7 @@ public class SceneCreator extends AppCompatActivity {
             switch (event.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
 
-                    parms = (LinearLayout.LayoutParams) view.getLayoutParams();
+                    parms = (RelativeLayout.LayoutParams) view.getLayoutParams();
                     startwidth = parms.width;
                     startheight = parms.height;
                     dx = event.getRawX() - parms.leftMargin;
@@ -601,8 +596,6 @@ public class SceneCreator extends AppCompatActivity {
                             parms.bottomMargin = parms.topMargin + (10 * parms.height);
 
                             view.setLayoutParams(parms);
-
-
                         }
                     }
                     break;
@@ -614,10 +607,7 @@ public class SceneCreator extends AppCompatActivity {
             e.setScaleY(v.getScaleX());
             e.setScaleX(v.getScaleY());
 
-
-
             return true;
-
         }
         private float spacing(MotionEvent event) {
             float x = event.getX(0) - event.getX(1);
@@ -631,9 +621,6 @@ public class SceneCreator extends AppCompatActivity {
             double radians = Math.atan2(delta_y, delta_x);
             return (float) Math.toDegrees(radians);
         }
-
-
-
     }
 
     @Override

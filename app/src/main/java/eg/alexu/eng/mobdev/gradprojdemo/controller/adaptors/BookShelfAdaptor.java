@@ -62,7 +62,7 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
                     shelfInstance.onClickBook(index,holder.storyCover);
                 }
             });
-            
+
             holder.popMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
