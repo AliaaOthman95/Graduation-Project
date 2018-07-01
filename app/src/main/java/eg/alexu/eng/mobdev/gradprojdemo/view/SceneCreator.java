@@ -86,6 +86,7 @@ public class SceneCreator extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scene_creator);
         getSupportActionBar().getDisplayOptions();
+
        // progressBar = (ProgressBar) findViewById(R.id.progressbar);
         narration_text = (EditText) findViewById(R.id.narration_text);
         sceneIndex = (int) getIntent().getSerializableExtra("Integer");
@@ -276,6 +277,7 @@ public class SceneCreator extends AppCompatActivity {
         url = new URL(urlString);
         Log.d("Google", "Url = "+  urlString);
         // start AsyncTask
+
         GoogleSearchAsyncTask searchTask = new GoogleSearchAsyncTask();
         return parseResponse(searchTask.execute(url).get());
         } catch (MalformedURLException e) {

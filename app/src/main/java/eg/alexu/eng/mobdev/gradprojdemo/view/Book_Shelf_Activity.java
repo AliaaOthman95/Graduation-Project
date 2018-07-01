@@ -107,7 +107,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                 if(!story_name.getText().toString().isEmpty()) {
                     name_of_story = story_name.getText().toString();
                     if(findStorybyName(name_of_story)){
-                        story_name.setError("Please enter another name");
+                        story_name.setError("Story name is repeated");
                     }else {
                         story = StoryFactory.createStory(name_of_story);
                         Log.d("story info" , "story "+story.getStoryName()+" will be created ");
@@ -119,7 +119,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 }else {
-                    story_name.setError("Please enter name of your story");
+                    story_name.setError("Story name can't be empty");
                 }
 
 

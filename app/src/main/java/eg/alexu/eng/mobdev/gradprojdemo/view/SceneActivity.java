@@ -55,6 +55,7 @@ public class SceneActivity extends AppCompatActivity {
         engine = Engine.getInstance();
         story_index = (int) getIntent().getSerializableExtra("Integer");
         story = Book_Shelf_Activity.stories.get(story_index);
+        this.setTitle(story.getStoryName());
 
         scenes  = story.getScenes();
         if(scenes == null) scenes = new ArrayList<Scene>();

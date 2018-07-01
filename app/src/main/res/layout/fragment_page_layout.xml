@@ -12,18 +12,28 @@
         android:layout_height="0dp"
         android:layout_weight="8"
         android:id="@+id/diplay_scene"
+        android:background="@drawable/background2"
 
         >
-
     </FrameLayout>
-    <TextView
+    <LinearLayout
+        android:id="@+id/story_summery"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
+        android:background="@drawable/edit_text_border"
+        android:orientation="horizontal">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:paddingTop="10dp"
+        android:layout_margin="10dp"
         android:layout_gravity="center"
         android:textStyle="bold"
         android:fontFamily="sans-serif-condensed"
         android:id="@+id/narration_text_view"
         />
+    </LinearLayout>
 
 </LinearLayout>

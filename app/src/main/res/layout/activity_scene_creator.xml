@@ -45,14 +45,11 @@
             android:id="@+id/narration_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fontFamily="sans-serif-condensed"
             android:hint="write your story here"
             android:text="  "
             android:layout_margin="10dp"
             android:inputType="textCapSentences|textAutoCorrect" />
-
-
-
-
     </LinearLayout>
 
 
