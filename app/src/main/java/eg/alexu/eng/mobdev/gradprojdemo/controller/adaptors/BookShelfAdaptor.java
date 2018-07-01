@@ -50,19 +50,19 @@ import eg.alexu.eng.mobdev.gradprojdemo.view.Book_Shelf_Activity;
 
            // holder.storyDate.setText(storyList.get(index).getCreationDate()+"");
             final Context context = holder.storyCover.getContext();
-            String coverName = storyList.get(index).getCover();
+            final String coverName = storyList.get(index).getCover();
             int coverImageId = context.getResources().getIdentifier(coverName,
                     "drawable", context.getPackageName());
             holder.storyCover.setImageResource(coverImageId);
 
-            holder.setItemClickListener(new ItemClickListener() {
+
+            holder.storyCover.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view, int pos) {
-                    shelfInstance.onClickBook(index);
+                public void onClick(View v) {
+                    shelfInstance.onClickBook(index,holder.storyCover);
                 }
             });
-
-
+            
             holder.popMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

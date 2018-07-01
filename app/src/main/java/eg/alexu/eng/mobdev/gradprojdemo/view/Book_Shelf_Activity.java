@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,13 +61,18 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 dialogPopUp();
+                // dialogPopUp();
+                story = StoryFactory.createRandomStories().get(0);
+                //story.setStoryName(name_of_story);
+                stories.add(story);
+                setBookShelfContent(stories);
+                engine.saveStroies(story);
+                story.setStoryId(engine.getLastStoryId());
                  Log.d("***********************","****************");
-                 story = StoryFactory.createRandomStories().get(0);
                  Log.d("storyIDbeforeSave", "eih el kalam");
-                 engine.saveStroies(story);
+
                  Log.d("storyIDAfterSave", engine.getLastStoryId() + " is the last id");
-                 story.setStoryId(engine.getLastStoryId());
+
 
 
             }
@@ -104,9 +110,11 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     }else {
                         //if(found) {
                             story = StoryFactory.createRandomStories().get(0);
-                            story.setStoryName(name_of_story);
+                            //story.setStoryName(name_of_story);
                             stories.add(story);
                             setBookShelfContent(stories);
+                            engine.saveStroies(story);
+                            story.setStoryId(engine.getLastStoryId());
                             ((LinearLayoutManager) bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size() - 1, 0);
                            // Log.d("//////////////////////", name_of_story);
 
@@ -184,12 +192,12 @@ public class Book_Shelf_Activity extends AppCompatActivity {
     }
 
 
-    public  void onClickBook(int index) {
+
+
+    public  void onClickBook(int index,ImageView bookCover) {
 
         Toast.makeText(this,"you clicked on "+stories.get(index).getStoryName(),Toast.LENGTH_LONG)
                 .show();
-
-
         //stories.get(index);
         Intent myintent = new Intent(this,SceneActivity.class);
         myintent.putExtra("Integer",index);
