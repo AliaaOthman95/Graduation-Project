@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -234,45 +237,58 @@ public class SceneCreator extends AppCompatActivity {
     private void  createEntity(String descreption){
         Entity entity = null;
         Bitmap result = null;
-        if(!descreption.toLowerCase().contains("owl") ){
-            try {
-               result = searchGoogle(descreption);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        if(isOnline()) {
+            if (!descreption.toLowerCase().contains("owl")) {
+                try {
+                    result = searchGoogle(descreption);
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                SendHttpRequestTask task = new SendHttpRequestTask();
+
+                try {
+                    descreption = descreption.replaceAll(" ", "%20");
+                    Log.d("get image", descreption);
+                    result = task.execute("http://35.237.169.164:5000/" + descreption).get();
+                    //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
+
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
-
-        }else {
-            SendHttpRequestTask task = new SendHttpRequestTask();
-
-            try {
-                descreption = descreption.replaceAll(" ", "%20");
-                Log.d("get image", descreption);
-                result = task.execute("http://35.237.169.164:5000/"+descreption).get();
-                //result = task.execute("https://vignette.wikia.nocookie.net/disney/images/0/0a/ElsaPose.png/revision/latest?cb=20170221004839").get();
-
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+            if (result != null) {
+                entity = new Entity(null, null, descreption, result, (float) 0, (float) 0, (float) 0, (float) 1, (float) 1);
+                showEntity(entity);
+                entities.add(entity);
+                scene.setEntities(entities);
+                engine.saveStroies(SceneActivity.story);
+                entity.setId(engine.getLastEntityId());
             }
-        }
-        if(result != null){
-            entity = new Entity(null, null, descreption, result, (float) 0, (float) 0, (float) 0, (float) 1, (float) 1);
-            showEntity(entity);
-            entities.add(entity);
-            scene.setEntities(entities);
-            engine.saveStroies(SceneActivity.story);
-            entity.setId(engine.getLastEntityId());
+        }else{
+            Toast.makeText(this, "You are not connected to Internet", Toast.LENGTH_SHORT).show();
+            Log.d("network","not connected");
         }
 
     }
-
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     private Bitmap searchGoogle(String descreption) throws ExecutionException, InterruptedException {
         try {
         descreption = descreption.replace(" ", "+");
         String key="AIzaSyDpOpFRPzOvzd8qu84NyVZ7fO_uosvHCGE";
         String cx = "006571456533153282207:1cf5kafdhxm";
-        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"cartoon+png" +"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
+        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"+cartoon+png" +"&imgSize=small"+"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
         URL url = null;
         url = new URL(urlString);
         Log.d("Google", "Url = "+  urlString);
