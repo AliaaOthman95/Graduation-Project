@@ -288,7 +288,7 @@ public class SceneCreator extends AppCompatActivity {
         descreption = descreption.replace(" ", "+");
         String key="AIzaSyDpOpFRPzOvzd8qu84NyVZ7fO_uosvHCGE";
         String cx = "006571456533153282207:1cf5kafdhxm";
-        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"+cartoon+png" +"&imgSize=small"+"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
+        String urlString = "https://www.googleapis.com/customsearch/v1?q=" + descreption+"+cartoon+icon+png" +"&imgSize=medium"+"&imageType=clipart"+"&searchType=image"+ "&num=1"+"&key=" + key + "&cx=" + cx + "&alt=json";
         URL url = null;
         url = new URL(urlString);
         Log.d("Google", "Url = "+  urlString);
