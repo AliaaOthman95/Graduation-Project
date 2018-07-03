@@ -64,7 +64,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogPopUp();
+                dialogPopUp(false,-1);
                 logStories();
 
             }
@@ -85,7 +85,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
         Log.d("stories number",stories.size()+"");
     }
 
-    private void dialogPopUp() {
+    private void dialogPopUp(final boolean found, final int index) {
 
         name_of_story = new String() ;
 
@@ -108,7 +108,7 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     name_of_story = story_name.getText().toString();
                     if(findStorybyName(name_of_story)){
                         story_name.setError("Story name is repeated");
-                    }else {
+                    }else if (!found) {
                         story = StoryFactory.createStory(name_of_story);
                         Log.d("story info" , "story "+story.getStoryName()+" will be created ");
                         stories.add(story);
@@ -117,7 +117,14 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                         story.setStoryId(engine.getLastStoryId());
                         ((LinearLayoutManager)bookShelfRV.getLayoutManager()).scrollToPositionWithOffset(stories.size()-1,0);
                         dialog.dismiss();
+                    }else if(found){
+                        story=stories.get(index);
+                        story.setStoryName(name_of_story);
+                        setBookShelfContent(stories);
+                        engine.saveStroies(story);
+                        dialog.dismiss();
                     }
+
                 }else {
                     story_name.setError("Story name can't be empty");
                 }
@@ -234,6 +241,8 @@ public class Book_Shelf_Activity extends AppCompatActivity {
                     case R.id.story_menu_rename:
                         Toast.makeText(getBaseContext(),"you opaaaaa "+stories.get(index).getStoryName()
                                 ,Toast.LENGTH_LONG).show();
+                        dialogPopUp(true,index);
+
                         break;
                 }
                 return false;
